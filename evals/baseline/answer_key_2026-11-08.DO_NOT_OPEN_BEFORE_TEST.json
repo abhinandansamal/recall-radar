@@ -1,0 +1,47 @@
+{
+  "L01": {
+    "truth": "clear",
+    "source": "ABO B07FP2TP8T"
+  },
+  "L02": {
+    "truth": "match",
+    "source": "Safety Gate SR/02750/26",
+    "alert": "https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/10119099"
+  },
+  "L03": {
+    "truth": "match",
+    "source": "Safety Gate SR/02819/26",
+    "alert": "https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/10118712"
+  },
+  "L04": {
+    "truth": "clear",
+    "source": "ABO B006A2NVIK"
+  },
+  "L05": {
+    "truth": "clear",
+    "source": "ABO B07PJ67Q7Z"
+  },
+  "L06": {
+    "truth": "match",
+    "source": "Safety Gate SR/02761/26",
+    "alert": "https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/10118893"
+  },
+  "L07": {
+    "truth": "match",
+    "source": "Safety Gate SR/02809/26",
+    "alert": "https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/10119075"
+  },
+  "L08": {
+    "truth": "clear",
+    "source": "ABO B07HL25ZQM"
+  },
+  "L09": {
+    "truth": "clear",
+    "source": "ABO B08344FYGH"
+  },
+  "L10": {
+    "truth": "match",
+    "source": "Safety Gate SR/02766/26",
+    "alert": "https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/10119076"
+  }
+}
