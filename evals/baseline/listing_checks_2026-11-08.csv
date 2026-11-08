@@ -1,0 +1,11 @@
+listing,shop_category,listing_title_de,ean_shown,photo_url,start,end,minutes,search_terms_used,results_viewed,decision(match|similar|clear|unsure),safety_gate_case_found,confidence_1to5,what_was_hard
+L01,Hanteln / Sport,"AmazonBasics Vinylhanteln, 2,7 kg, Orange, 2 Stück",,https://amazon-berkeley-objects.s3.amazonaws.com/images/small/aa/aa32cab9.jpg,,,,,,,,,
+L02,Hanteln / Sport,SPOKEY Kurzhantel (Dumbbells),5905339431035,https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11237357,,,,,,,,,
+L03,Schmuck,Halskette 26046,,https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11237277,,,,,,,,,
+L04,Schmuck,"18 K vergoldet Sterling Silber Diamant Herz Anhänger Halskette (0,05 cttw, 45,7 cm)",,https://amazon-berkeley-objects.s3.amazonaws.com/images/small/f1/f1b3d3bf.jpg,,,,,,,,,
+L05,Elektronik,"AmazonBasics Bluetooth-Stereo-Lautsprecher, wasserabweisend, 15 W, Rot",,https://amazon-berkeley-objects.s3.amazonaws.com/images/small/d3/d3e284e4.jpg,,,,,,,,,
+L06,Elektronik,AFF IMPORT Karaokemaschine Zestaw Karaoke 4270/01-2025-Z,5904996087548,https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11237299,,,,,,,,,
+L07,Baby,PandaEar Schnullerhalter PS-001,,https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11237328,,,,,,,,,
+L08,Baby,"Amazon Essentials 6er-Pack Lätzchen-Set, mehrfarbig, Einheitsgröße",,https://amazon-berkeley-objects.s3.amazonaws.com/images/small/4c/4c533ad7.jpg,,,,,,,,,
+L09,Beauty,Umi IPL Haarentfernungsgerät 400.000 Blitze,,https://amazon-berkeley-objects.s3.amazonaws.com/images/small/a0/a0dc2f98.jpg,,,,,,,,,
+L10,Beauty,Tertio Gel Nagellack (Smalto gel) M220,,https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11237335,,,,,,,,,
