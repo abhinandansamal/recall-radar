@@ -1,0 +1,41 @@
+# Dev environment services (runs on your Mac).
+# Start:  docker compose -f docker-compose.dev.yml --env-file .env up -d
+# Stop:   docker compose -f docker-compose.dev.yml down        (add -v to delete data)
+#
+# Postgres 17 matches the version we will run on Azure Flexible Server (Test/Prod).
+# Images are multi-arch, so they run natively on Apple Silicon (arm64).
+
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.7-pg17
+    environment:
+      POSTGRES_DB: ${RR_POSTGRES_DB}
+      POSTGRES_USER: ${RR_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${RR_POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"        # only reachable from your Mac, not your network
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${RR_POSTGRES_USER} -d ${RR_POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pg-data:

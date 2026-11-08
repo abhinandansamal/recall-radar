@@ -1,0 +1,49 @@
+name: User story
+description: A piece of user value, small enough for one sprint
+title: "US-___: "
+labels: ["type:story"]
+body:
+  - type: input
+    id: feature
+    attributes:
+      label: Feature / Epic
+      placeholder: "F01 / E1 Platform Foundation"
+    validations:
+      required: true
+  - type: textarea
+    id: story
+    attributes:
+      label: Story
+      value: "As a <role>, I want <capability> so that <benefit>."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria (Given / When / Then)
+      value: |
+        - Given ...
+          When ...
+          Then ...
+    validations:
+      required: true
+  - type: input
+    id: metric
+    attributes:
+      label: Evaluation metric (if any)
+      placeholder: "e.g. recall@5 on gold set, p95 latency, coverage"
+  - type: dropdown
+    id: points
+    attributes:
+      label: Story points
+      options: ["1", "2", "3", "5", "8"]
+    validations:
+      required: true
+  - type: checkboxes
+    id: ready
+    attributes:
+      label: Definition of Ready
+      options:
+        - label: Acceptance criteria are testable
+        - label: Dependencies are known
+        - label: Estimated

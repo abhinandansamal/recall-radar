@@ -1,0 +1,26 @@
+name: Bug
+description: Something does not work as expected
+title: "BUG: "
+labels: ["type:bug"]
+body:
+  - type: dropdown
+    id: env
+    attributes:
+      label: Environment
+      options: ["dev", "test", "prod"]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened vs. what you expected
+    validations:
+      required: true
+  - type: input
+    id: correlation
+    attributes:
+      label: Correlation ID (from logs / Langfuse)
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce

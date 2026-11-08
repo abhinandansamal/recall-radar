@@ -1,0 +1,65 @@
+# CI: runs on every PR and every push to main.
+# Gates (all must pass before merge): secret scan, lint, format, types, tests + coverage, dependency audit.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Least privilege: the workflow token can only read the repo.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0              # scan the full history, not only the last commit
+      - uses: gitleaks/gitleaks-action@v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+
+      - name: Install (exactly what uv.lock says)
+        run: uv sync --locked
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Format
+        run: uv run ruff format --check .
+
+      - name: Types (mypy strict)
+        run: uv run mypy packages/core/src
+
+      - name: Unit tests + coverage
+        run: >
+          uv run pytest tests/unit
+          --cov --cov-report=term --cov-report=xml:reports/coverage.xml
+          --junitxml=reports/junit.xml
+
+      - name: Dependency audit (known CVEs)
+        run: uv export --locked --no-hashes --no-emit-workspace --format requirements-txt | uv run pip-audit --strict -r /dev/stdin
+
+      - name: Upload test logs
+        if: always()                  # keep the logs even when tests fail
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: test-reports-${{ github.sha }}
+          path: reports/
+          retention-days: 30

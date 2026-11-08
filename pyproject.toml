@@ -1,0 +1,81 @@
+# Root of the uv workspace (monorepo). See docs/adr/0002 (written in F01).
+# The root is not a package itself; it only holds shared tooling config
+# and the dev dependency group used by every workspace member.
+
+[project]
+name = "recall-radar"
+version = "0.1.0"
+description = "GPSR Recall Radar: finds marketplace listings that match EU Safety Gate alerts."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = ["rr-core"]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv.sources]
+rr-core = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "ruff==0.17.4",
+    "mypy==2.4.1",
+    "pytest==9.2.0",
+    "pytest-cov==7.1.0",
+    "pytest-asyncio==1.4.1.post1",
+    "pre-commit==4.7.0",
+    "pip-audit==2.10.1",
+]
+
+# ---------- Ruff: linter + formatter ----------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["packages/*/src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F",   # pycodestyle + pyflakes
+    "I",             # import sorting
+    "B",             # bugbear: likely bugs
+    "UP",            # pyupgrade: modern syntax
+    "S",             # bandit: security
+    "D",             # docstrings (Google style)
+    "ANN",           # type annotations everywhere
+    "RUF",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "D", "ANN"]   # asserts and no docstrings are fine in tests
+
+# ---------- mypy: strict typing ----------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+mypy_path = "packages/core/src"
+plugins = ["pydantic.mypy"]
+
+# ---------- pytest + coverage ----------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-ra --strict-markers"
+markers = [
+    "integration: needs Docker services (Postgres, Redis)",
+    "e2e: runs against a deployed environment",
+]
+
+[tool.coverage.run]
+source = ["rr_core"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true

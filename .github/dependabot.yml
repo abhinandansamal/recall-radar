@@ -1,0 +1,11 @@
+# Weekly PRs for outdated dependencies; they go through the same CI gates as your code.
+version: 2
+updates:
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

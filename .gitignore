@@ -1,0 +1,52 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+
+# --- Python ---
+.venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+reports/
+dist/
+build/
+*.egg-info/
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+
+# --- Terraform ---
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+
+# --- Data: lives in ADLS / Unity Catalog, never in git ---
+/data/raw/
+/data/local/
+*.parquet
+*.delta
+*.jpg
+*.jpeg
+*.png
+*.webp
+!docs/**/*.png
+!apps/web/public/**/*.png
+
+# --- OS / editors ---
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/settings.json
