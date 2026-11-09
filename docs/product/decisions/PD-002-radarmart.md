@@ -22,6 +22,6 @@ Build RadarMart to production standards (security, roles, bilingual UI, tests), 
 signed listing events in, catalogue connector out.
 
 ## Consequences
-- Additional scope (estimated about 2 working days); timeline impact decided at Sprint 0 review.
+- Additional scope (estimated about 2 working days); Timeline extended from 10 to 12 days (decided 08.11.2026).
 - Buyer recall notice (GPSR duty to inform consumers) becomes demonstrable.
 - RadarMart gets its own epic, backlog and tests.

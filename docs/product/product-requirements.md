@@ -12,7 +12,7 @@ date: "8 November 2026 · Version 1.0 (Draft for approval)"
 | Product | Recall Radar (compliance workspace) and RadarMart (demonstration marketplace) |
 | Document type | Product Requirements Document (PRD) |
 | Owner | Abhinandan Samal (Product Owner) |
-| Status | Draft for approval, Sprint 0 (Product Discovery) |
+| Status | Approved, 09.11.2026 |
 | Version | 1.0, 8 November 2026 |
 | Scope | What the product solves, for whom, with which features and which measurable value. Technical architecture is documented separately (HLD/LLD, ADRs). |
 
