@@ -13,7 +13,7 @@ citations, multi-agent workflow with MCP tools and an A2A legal agent. English a
 | Phase | What happened | Evidence |
 |-------|---------------|----------|
 | Sprint 0: Product Discovery | Problem validated, data checked, manual baseline, product decisions, PRD | [Discovery log](docs/product/discovery-log.md), [PRD](docs/product/product-requirements.md) ([PDF](docs/product/Recall-Radar-PRD-v1.0.pdf)) |
-| Sprint 1: Data Foundation | _in progress_ | [Board](../../projects), [Devlog](docs/devlog/) |
+| Sprint 1: Data Foundation | _in progress_ | [Board](https://github.com/users/abhinandansamal/projects/2), [Devlog](docs/devlog/) |
 | Sprint 2: AI Core | _planned_ | |
 | Sprint 3: Product & Release | _planned_ | |
 
