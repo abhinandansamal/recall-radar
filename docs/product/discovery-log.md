@@ -13,7 +13,7 @@ the value is measurable **before** any code is written. Each entry links to its 
 | 6 | 08.11.2026 | **Product decision PD-001**: two-trigger screening (listing → all alerts; alert → whole catalogue) | Design changed based on evidence | `docs/product/decisions/PD-001-two-trigger-screening.md` |
 | 7 | 08.11.2026 | **Product decision PD-002**: RadarMart demonstration marketplace | Full end-to-end loop can be shown; buyer recall notice becomes demonstrable | `docs/product/decisions/PD-002-radarmart.md` |
 | 8 | 08.11.2026 | PRD v1.0 written | Problem, users, features (MoSCoW), KPIs, risks | `docs/product/product-requirements.md` (+ PDF) |
-| 9 | open | Manual study 2: 10 listings → Safety Gate by hand (timed baseline) | Carried over to Sprint 1 (#15), in progress | `evals/baseline/listing_checks_2026-11-08.csv` |
+| 9 | 09.11.2026 | Manual study 2: 10 listings → Safety Gate by hand (timed baseline) | 7/9 correct, catch rate 4/5, median ~10 min per listing; title and EAN search fail | `evals/reports/baseline.md` |
 | 10 | 09.11.2026 | Sprint 0 review and retrospective | Sprint goal met: 6 of 7 items done; S0-7 carried over to Sprint 1 (#15); 3 improvement actions agreed; Sprint 1 planned (12 stories, F01–F05); PRD v1.0 approved by Product Owner | `docs/sprints/sprint-0.md`, release `sprint-0` |
 
 ## What a reviewer should take away
