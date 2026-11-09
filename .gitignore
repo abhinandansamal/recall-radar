@@ -15,7 +15,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 coverage.xml
-reports/
+/reports/
 dist/
 build/
 *.egg-info/
