@@ -1,7 +1,6 @@
 # Working agreement
 
-This project follows Scrum, adapted for a team of one (Product Owner + Developer) with an external
-architect/reviewer. Everything below applies to every change, without exception.
+This project follows Scrum, adapted for a team of one: I act as Product Owner and Developer. An AI assistant is used as an architecture reviewer; all code, tests and manual studies are written and run by me. Everything below applies to every change, without exception.
 
 ## Flow of work
 
@@ -46,7 +45,7 @@ Test layers and gates: see [docs/testing/test-strategy.md](docs/testing/test-str
 
 | Env  | Where                         | Deployed by                        |
 |------|-------------------------------|------------------------------------|
-| dev  | your Mac (Docker Compose)     | you                                |
+| dev  | local machine (Docker Compose)| developer                          |
 | test | Azure Container Apps `rr-test`| automatically on merge to `main`   |
 | prod | Azure Container Apps `rr-prod`| git tag `vX.Y.Z` + manual approval |
 

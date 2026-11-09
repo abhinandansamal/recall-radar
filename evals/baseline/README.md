@@ -36,5 +36,5 @@ Safety Gate public search: https://ec.europa.eu/safety-gate-alerts/screen/search
 Do L01 once untimed to learn the portal, then time all 10. Total about 1 to 1.5 hours.
 
 ### Afterwards
-Open the answer key, mark right/wrong, and send the worksheet. Report: `evals/reports/baseline.md`
+Open the answer key, mark each row right/wrong, and write the report. Report: `evals/reports/baseline.md`
 (minutes per listing, accuracy, confidence, pain points, extrapolation to a catalogue).

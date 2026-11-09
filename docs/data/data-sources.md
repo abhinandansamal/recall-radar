@@ -52,8 +52,7 @@ listing by the online marketplace.
    - cross-language: the German text of an alert is the query, the English alert is the target
 2. **ABO as the realistic catalogue and source of hard negatives** in the overlapping categories
    (jewellery, lighting/electrical, beauty, baby, sporting goods): measures false-positive rate.
-3. **Human-labelled candidate pairs** (ABO listing vs. top alerts): you label ~200 pairs as
-   match / similar / no match, twice, 24 h apart. Only the labels are ours; the data stays public.
+3. **Human-labelled candidate pairs** (ABO listing vs. top alerts): the Product Owner labels ~200 pairs as match / similar / no match, twice, 24 h apart. Only the labels are ours; the data stays public.
 4. The README and demo state the limitation honestly: ABO has no toys, so the toy category is
    evaluated on Safety Gate data only.
 

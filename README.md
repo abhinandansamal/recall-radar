@@ -49,4 +49,4 @@ Public sources only; availability, fields, volumes and licences are documented i
 ## How we work
 
 See [CONTRIBUTING.md](CONTRIBUTING.md): Scrum, TDD, Conventional Commits, Definition of Done,
-Dev / Test / Prod environments.
+Dev / Test / Prod environments. AI assistance: used for architecture review and document drafting; implementation, testing and evaluation are my own work.
