@@ -4,6 +4,7 @@ from collections.abc import Iterator
 
 import pytest
 import structlog
+
 from rr_core.config import get_settings
 
 

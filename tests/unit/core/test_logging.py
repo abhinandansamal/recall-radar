@@ -4,10 +4,9 @@ import io
 import json
 from typing import Any
 
-from rr_core.logging import REDACTED, configure_logging, get_logger
-
 from rr_core.config import Settings
 from rr_core.correlation import correlation_scope
+from rr_core.logging import REDACTED, configure_logging, get_logger
 
 
 def _setup(log_level: str = "INFO") -> io.StringIO:

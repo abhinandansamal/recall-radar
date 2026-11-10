@@ -2,6 +2,7 @@
 
 import pytest
 from pydantic import ValidationError
+
 from rr_core.config import Settings, get_settings
 
 FAKE_KEY = "sk-test-not-a-real-key-123"
