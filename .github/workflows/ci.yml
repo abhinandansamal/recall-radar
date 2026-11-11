@@ -79,3 +79,8 @@ jobs:
         run: |
           terraform init -backend=false
           terraform validate
+      - name: Validate prod environment
+        working-directory: infra/terraform/envs/prod
+        run: |
+          terraform init -backend=false
+          terraform validate
