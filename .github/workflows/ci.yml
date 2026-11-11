@@ -65,3 +65,17 @@ jobs:
           name: test-reports-${{ github.sha }}
           path: reports/
           retention-days: 30
+
+  terraform:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: hashicorp/setup-terraform@v4
+      - name: Format check
+        run: terraform fmt -check -recursive infra/terraform
+      - name: Validate test environment
+        working-directory: infra/terraform/envs/test
+        run: |
+          terraform init -backend=false
+          terraform validate
