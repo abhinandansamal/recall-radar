@@ -32,6 +32,8 @@ out/
 *.tfvars
 !*.tfvars.example
 crash.log
+tfplan
+*.tfplan
 
 # --- Data: lives in ADLS / Unity Catalog, never in git ---
 /data/raw/
