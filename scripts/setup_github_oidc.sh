@@ -8,12 +8,21 @@ SUB_ID="$(az account show --query id -o tsv)"
 TENANT_ID="$(az account show --query tenantId -o tsv)"
 STATE_SA_ID="$(az storage account show -n strrtfstateefdcb1 -g rg-rr-tfstate --query id -o tsv)"
 
+# GitHub puts immutable numeric IDs in the OIDC subject:
+#   repo:<owner>@<owner_id>/<repo>@<repo_id>:<context>
+# The IDs stop a re-created repo with the same name from reusing this trust.
+OWNER="${REPO%%/*}"
+NAME="${REPO#*/}"
+OWNER_ID="$(gh api "repos/${REPO}" --jq '.owner.id')"
+REPO_ID="$(gh api "repos/${REPO}" --jq '.id')"
+SUBJ="repo:${OWNER}@${OWNER_ID}/${NAME}@${REPO_ID}"
+
 APP_ID="$(az ad app create --display-name "$APP_NAME" --query appId -o tsv)"
 az ad sp create --id "$APP_ID" -o none
 SP_ID="$(az ad sp show --id "$APP_ID" --query id -o tsv)"
 
 # Trust GitHub tokens for pull requests and for the main branch of this repo only.
-for pair in "pr:repo:${REPO}:pull_request" "main:repo:${REPO}:ref:refs/heads/main"; do
+for pair in "pr:${SUBJ}:pull_request" "main:${SUBJ}:ref:refs/heads/main"; do
   name="${pair%%:*}"; subject="${pair#*:}"
   az ad app federated-credential create --id "$APP_ID" --parameters "{
     \"name\": \"github-${name}\",
@@ -23,7 +32,7 @@ for pair in "pr:repo:${REPO}:pull_request" "main:repo:${REPO}:ref:refs/heads/mai
   }" -o none
 done
 
-# Read-only on the subscription; read/write on the state storage (plan needs the state lock).
+# Read-only on the subscription; blob read/write on the state storage (init and plan read the state).
 az role assignment create --assignee-object-id "$SP_ID" --assignee-principal-type ServicePrincipal \
   --role "Reader" --scope "/subscriptions/${SUB_ID}" -o none
 az role assignment create --assignee-object-id "$SP_ID" --assignee-principal-type ServicePrincipal \
@@ -34,4 +43,4 @@ gh variable set AZURE_CLIENT_ID --body "$APP_ID"
 gh variable set AZURE_TENANT_ID --body "$TENANT_ID"
 gh variable set AZURE_SUBSCRIPTION_ID --body "$SUB_ID"
 
-echo "Done. CI app: $APP_NAME ($APP_ID)"
+echo "Done. CI app: $APP_NAME ($APP_ID), subject prefix: $SUBJ"
