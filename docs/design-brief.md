@@ -87,7 +87,7 @@ catalogue of 10,000 to 15,000 listings. Budget per listing check: well below €
 
 | Topic | Decision |
 |-------|----------|
-| Data location | EU only: Azure Germany West Central; Langfuse EU region; LLM provider Mistral (EU company; processing region confirmed in F06) |
+| Data location | EU only: Azure Germany West Central; Postgres in France Central (flexible server not offered in Germany West Central for this subscription); Langfuse EU region; LLM provider Mistral (EU company; processing region confirmed in F06) |
 | Personal data | Demo buyer and seller data only (synthetic); no real personal data |
 | Retention | Application logs 30 days; traces 30 days; cases and audit log kept for the demo lifetime (production: per legal retention duty) |
 | GDPR | Data minimisation, redaction in logs, deletion on request (PRD K6) |
