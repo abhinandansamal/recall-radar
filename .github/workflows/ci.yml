@@ -94,3 +94,28 @@ jobs:
         run: |
           terraform init -backend=false
           terraform validate
+
+  terraform-plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    needs: terraform
+    permissions:
+      contents: read
+      id-token: write     # allows the job to request the GitHub OIDC token
+    env:
+      ARM_USE_OIDC: "true"
+      ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      TF_VAR_subscription_id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+    strategy:
+      matrix:
+        env: [test, prod]
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: hashicorp/setup-terraform@v4
+      - name: Plan ${{ matrix.env }}
+        working-directory: infra/terraform/envs/${{ matrix.env }}
+        run: |
+          terraform init -input=false
+          terraform plan -input=false -lock=false -detailed-exitcode || [ $? -eq 2 ]
