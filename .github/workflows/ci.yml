@@ -89,3 +89,8 @@ jobs:
         run: |
           terraform init -backend=false
           terraform validate
+      - name: Validate Unity Catalog stack
+        working-directory: infra/terraform/unity-catalog
+        run: |
+          terraform init -backend=false
+          terraform validate
