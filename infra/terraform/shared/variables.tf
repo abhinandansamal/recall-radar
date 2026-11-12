@@ -25,3 +25,14 @@ variable "postgres_location" {
   type        = string
   default     = "francecentral"
 }
+
+variable "budget_amount_eur" {
+  description = "Monthly budget in EUR; alerts fire at 50/80/100 % of it."
+  type        = number
+  default     = 25
+}
+
+variable "budget_email" {
+  description = "Where budget alerts are sent. Passed via TF_VAR_budget_email, never committed."
+  type        = string
+}
