@@ -86,6 +86,6 @@ jobs:
           terraform validate
       - name: Validate shared stack
         working-directory: infra/terraform/shared
-        run:
+        run: |
           terraform init -backend=false
           terraform validate
