@@ -1,6 +1,6 @@
 locals {
   envs    = toset(["dev", "test", "prod"])
-  layers  = ["bronze", "silver", "glod", "ops"]
+  layers  = ["bronze", "silver", "gold", "ops"]
   volumes = ["landing", "images"]
 
   schemas = {
