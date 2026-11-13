@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Shortened copy of Report-2026-45 (EN): 2 of its alerts, fetched 2026-11-13. -->
+<Safety-Gate>
+  <report_language>en</report_language>
+  <report_date>13/11/2026</report_date>
+  <report_year>2026</report_year>
+  <report_week>45</report_week>
+  <report_addendum><![CDATA[]]></report_addendum>
+  <notifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="webReportXmlWeeklyReportDetailMotorVehicleContentDto">
+    <order>1</order>
+    <caseNumber>SR/03208/26</caseNumber>
+    <publicationDate>10-11-2026</publicationDate>
+    <reference><![CDATA[https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/10118633]]></reference>
+    <category><![CDATA[Clothing, textiles and fashion items]]></category>
+    <product><![CDATA[Children's jacket]]></product>
+    <brand><![CDATA[Jojo Maman Bébé]]></brand>
+    <name><![CDATA[Baby Jacket Flower]]></name>
+    <type_numberOfModel><![CDATA[C52-683-145-000161]]></type_numberOfModel>
+    <batchNumber><![CDATA[]]></batchNumber>
+    <barcode><![CDATA[5054298241091]]></barcode>
+    <riskType><![CDATA[Chemical, Environment]]></riskType>
+    <danger><![CDATA[High concentrations of PFCA and PFOA related compounds.]]></danger>
+    <measures><![CDATA[Withdrawal of the product from the market]]></measures>
+    <URLrecall/>
+    <description><![CDATA[Jacket with imprinted flowers, size 6-12 months.]]></description>
+    <notifyingCountry>Luxembourg</notifyingCountry>
+    <countryOfOrigin>People's Republic of China</countryOfOrigin>
+    <type>Consumer</type>
+    <level>Serious risk</level>
+    <pictures>
+      <picture><![CDATA[https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11241880]]></picture>
+      <picture><![CDATA[https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11241881]]></picture>
+    </pictures>
+    <onlineTrader><![CDATA[Other(next.lu) / ]]></onlineTrader>
+    <companyRecallCode/>
+    <productionDates/>
+  </notifications>
+  <notifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="webReportXmlWeeklyReportDetailMotorVehicleContentDto">
+    <order>2</order>
+    <caseNumber>SR/03217/26</caseNumber>
+    <publicationDate>10-11-2026</publicationDate>
+    <reference><![CDATA[https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/10118634]]></reference>
+    <category><![CDATA[Clothing, textiles and fashion items]]></category>
+    <product><![CDATA[Cap]]></product>
+    <brand><![CDATA[s.Oliver]]></brand>
+    <name><![CDATA[]]></name>
+    <type_numberOfModel><![CDATA[10.2.17.25.271, 2175334.5906.ONE SIZE]]></type_numberOfModel>
+    <batchNumber><![CDATA[]]></batchNumber>
+    <barcode><![CDATA[4099979071513]]></barcode>
+    <riskType><![CDATA[Chemical, Environment]]></riskType>
+    <danger><![CDATA[High concentrations of PFCA and PFOA related compounds.]]></danger>
+    <measures><![CDATA[Withdrawal of the product from the market]]></measures>
+    <URLrecall/>
+    <description><![CDATA[Navy blue outdoor baseball cap with a small embroidered logo.]]></description>
+    <notifyingCountry>Luxembourg</notifyingCountry>
+    <countryOfOrigin>People's Republic of China</countryOfOrigin>
+    <type>Consumer</type>
+    <level>Serious risk</level>
+    <pictures>
+      <picture><![CDATA[https://ec.europa.eu/safety-gate-alerts/public/api/notification/image/11241884]]></picture>
+    </pictures>
+    <onlineTrader><![CDATA[]]></onlineTrader>
+    <companyRecallCode/>
+    <productionDates/>
+  </notifications>
+</Safety-Gate>

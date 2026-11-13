@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><!--
+Shortened copy of the real weekly report index (2 of 1,124 entries), fetched 2026-11-13.
+--><Safety-Gate>
+    <weeklyReport>
+        <report_language>en</report_language>
+        <reference>Report-2026-44</reference>
+        <publicationDate>06/11/2026</publicationDate>
+        <year>2026</year>
+        <month>11</month>
+        <day>6</day>
+        <week>44</week>
+        <URL>https://ec.europa.eu/safety-gate-alerts/api/download/weeklyReport/detail/xml/10000330?language=en&amp;search=WEB_REPORT%7C:%7C10000330,</URL>
+    </weeklyReport>
+    <weeklyReport>
+        <report_language>en</report_language>
+        <reference>Report-2026-45</reference>
+        <publicationDate>13/11/2026</publicationDate>
+        <year>2026</year>
+        <month>11</month>
+        <day>13</day>
+        <week>45</week>
+        <URL>https://ec.europa.eu/safety-gate-alerts/api/download/weeklyReport/detail/xml/10000331?language=en&amp;search=WEB_REPORT%7C:%7C10000331,</URL>
+    </weeklyReport>
+</Safety-Gate>

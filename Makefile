@@ -14,7 +14,7 @@ format:
 	uv run ruff format .
 
 types:
-	uv run mypy packages/core/src
+	uv run mypy packages/core/src packages/ingest/src
 
 test:
 	uv run pytest tests/unit --cov --cov-report=term

@@ -107,10 +107,13 @@ def get_logger(name: str | None = None) -> FilteringBoundLogger:
     """Return a structured logger.
 
     Args:
-        name: Optional logger name, added to each line as ``logger``.
+        name: Optional logger name, added to each line as ``logger_name``.
 
     Returns:
         A structlog bound logger.
     """
-    logger = cast(FilteringBoundLogger, structlog.get_logger())
-    return logger.bind(logger=name) if name else logger
+    # Initial values keep the logger lazy: the configuration is looked up at the first log
+    # call, so module-level loggers created before configure_logging() still write JSON.
+    # (Calling .bind() here would build the logger immediately with the default config.)
+    initial = {"logger_name": name} if name else {}
+    return cast(FilteringBoundLogger, structlog.get_logger(**initial))

@@ -1,0 +1,14 @@
+[project]
+name = "rr-ingest"
+version = "0.1.0"
+description = "Downloads public source data (Safety Gate, ABO, GPSR) into the landing zone."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "defusedxml==0.7.1",
+    "httpx==0.28.1",
+    "rr-core",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14"]
+build-backend = "uv_build"
