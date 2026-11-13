@@ -76,3 +76,12 @@ def test_debug_is_written_at_debug_level() -> None:
     stream = _setup("DEBUG")
     get_logger().debug("detail")
     assert _lines(stream)[0]["event"] == "detail"
+
+
+def test_logger_created_before_configuration_still_writes_json() -> None:
+    log = get_logger("module_level")
+    stream = _setup()
+    log.info("after_configure")
+    [line] = _lines(stream)
+    assert line["event"] == "after_configure"
+    assert line["logger_name"] == "module_level"
