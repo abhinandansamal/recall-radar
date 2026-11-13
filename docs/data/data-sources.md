@@ -17,7 +17,7 @@
 | Top categories | Toys 170, Electrical appliances 168, Motor vehicles 60, Cosmetics 59, Chemical products 38, Clothing 36, Jewellery 31, Hobby/sports 29, Machinery 23, Protective equipment 23 |
 | German | Same reports with `language=de` contain real German text (e.g. "Netzadapter", "Elektrischer Schlag") |
 | Images | Picture URLs return the image (tested: `image/png`, 149 KB, HTTP 200) |
-| Licence | Commission content reusable with attribution (Decision 2011/833/EU). Photos may belong to third parties: we store link + hash + embedding, not the photo, until the exact terms are confirmed in F03 (ADR) |
+| Licence | Commission content reusable with attribution (Decision 2011/833/EU). Photos may belong to third parties: we keep a private copy (never served publicly), with link, hash and attribution; see ADR-0004. |
 
 Sample alert (Report-2026-44): SR/03143/26, "Power adaptor", model 2430, Electric shock, Serious risk,
 notified by France, origin China, sold via AliExpress, measures: recall from end users + removal of the
