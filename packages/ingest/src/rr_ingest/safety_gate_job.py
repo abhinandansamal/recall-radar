@@ -24,7 +24,7 @@ from rr_ingest.http import fetch, make_client
 from rr_ingest.landing import write_once
 from rr_ingest.safety_gate import (
     InvalidReportError,
-    content_hash,
+    content_fingerprint,
     count_alerts,
     detail_url_for,
     landing_name,
@@ -82,7 +82,7 @@ def download_safety_gate(
     write_once(
         out_root,
         f"safety_gate/index/fetched_date={fetched_date}/"
-        f"weekly_index_{content_hash(index_bytes)[:12]}.xml",
+        f"weekly_index_{content_fingerprint(index_bytes)[:12]}.xml",
         index_bytes,
     )
     log.info("index_read", reports_selected=len(reports), since=since.isoformat())

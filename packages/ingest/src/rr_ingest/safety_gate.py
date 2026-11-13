@@ -7,6 +7,7 @@ All XML is parsed with ``defusedxml`` because the files come from the internet.
 """
 
 import hashlib
+import json
 import re
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -130,22 +131,46 @@ def count_alerts(xml_bytes: bytes) -> int:
     return len(root.findall(ALERT_TAG))
 
 
-def content_hash(content: bytes) -> str:
-    """Return the SHA-256 of the content as a hex string."""
-    return hashlib.sha256(content).hexdigest()
+def _canonical(element: Element) -> list[object]:
+    """Reduce an element to its tag and text, ignoring attributes and empty-value styles.
+
+    ``<a/>``, ``<a><![CDATA[]]></a>`` and ``<a xsi:nil="true"/>`` all become ``["a", ""]``.
+    """
+    children = list(element)
+    if not children:
+        return [element.tag, (element.text or "").strip()]
+    return [element.tag, [_canonical(child) for child in children]]
 
 
-def landing_name(reference: str, content: bytes) -> str:
-    """Build the file name for the landing zone: the reference plus a short content hash.
+def content_fingerprint(xml_bytes: bytes) -> str:
+    """Return a SHA-256 over the meaning of an XML document, not its exact bytes.
+
+    The Safety Gate server sometimes serves the same report with a different XML
+    declaration and a different style for empty fields (empty CDATA vs ``xsi:nil``).
+    Those variants get the same fingerprint; a changed value or a changed alert does not.
+
+    Args:
+        xml_bytes: A downloaded XML file.
+
+    Returns:
+        The fingerprint as a hex string.
+    """
+    canonical = _canonical(ElementTree.fromstring(xml_bytes))
+    payload = json.dumps(canonical, ensure_ascii=False, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def landing_name(reference: str, xml_bytes: bytes) -> str:
+    """Build the file name for the landing zone: the reference plus a short fingerprint.
 
     The same content always gets the same name (stored once); changed content gets a new
     name (stored as a new version).
 
     Args:
         reference: Report code, for example ``Report-2026-45``.
-        content: The file content.
+        xml_bytes: The file content.
 
     Returns:
         A name like ``Report-2026-45_3f2a9c1b7d4e.xml``.
     """
-    return f"{reference}_{content_hash(content)[:12]}.xml"
+    return f"{reference}_{content_fingerprint(xml_bytes)[:12]}.xml"

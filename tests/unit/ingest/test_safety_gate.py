@@ -6,6 +6,7 @@ import pytest
 from rr_ingest.safety_gate import (
     InvalidReportError,
     WeeklyReport,
+    content_fingerprint,
     count_alerts,
     detail_url_for,
     landing_name,
@@ -72,6 +73,40 @@ def test_landing_name_is_stable_for_same_content_and_changes_with_content():
     first = landing_name("Report-2026-45", b"<a/>")
 
     assert first == landing_name("Report-2026-45", b"<a/>")
-    assert first != landing_name("Report-2026-45", b"<b/>")
+    assert first != landing_name("Report-2026-45", b"<a>x</a>")
     assert first.startswith("Report-2026-45_") and first.endswith(".xml")
     assert len(first) == len("Report-2026-45_") + 12 + len(".xml")
+
+
+# Both styles were served by the EC for the same report within 30 minutes (2026-11-13).
+STYLE_CDATA = b"""<?xml version="1.0" encoding="UTF-8"?>
+<Safety-Gate><report_addendum><![CDATA[]]></report_addendum>
+<notifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="X">
+<caseNumber>SR/1/26</caseNumber><name><![CDATA[]]></name><URLrecall/>
+<pictures><picture><![CDATA[https://x/1]]></picture></pictures></notifications></Safety-Gate>"""
+STYLE_NIL = b"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Safety-Gate>
+  <report_addendum xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+  <notifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="X">
+    <caseNumber>SR/1/26</caseNumber>
+    <name xsi:nil="true"/>
+    <URLrecall xsi:nil="true"/>
+    <pictures><picture>https://x/1</picture></pictures>
+  </notifications>
+</Safety-Gate>"""
+
+
+def test_fingerprint_ignores_empty_field_style_and_declaration():
+    assert content_fingerprint(STYLE_CDATA) == content_fingerprint(STYLE_NIL)
+
+
+def test_fingerprint_changes_when_a_value_changes():
+    changed = STYLE_NIL.replace(b"SR/1/26", b"SR/2/26")
+
+    assert content_fingerprint(STYLE_NIL) != content_fingerprint(changed)
+
+
+def test_fingerprint_changes_when_a_picture_is_added():
+    more = STYLE_NIL.replace(b"</pictures>", b"<picture>https://x/2</picture></pictures>")
+
+    assert content_fingerprint(STYLE_NIL) != content_fingerprint(more)
