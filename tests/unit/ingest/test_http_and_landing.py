@@ -77,3 +77,11 @@ def test_write_once_writes_then_skips(tmp_path):
 
     assert (tmp_path / "a/b/file.xml").read_bytes() == b"one"
     assert not list(tmp_path.rglob("*.part"))
+
+
+def test_fetch_sends_extra_headers():
+    client, calls = client_with([httpx.Response(200, content=b"ok")])
+
+    fetch(client, "https://x", headers={"Accept-Language": "deu"}, sleep=lambda s: None)
+
+    assert calls[0].headers["Accept-Language"] == "deu"

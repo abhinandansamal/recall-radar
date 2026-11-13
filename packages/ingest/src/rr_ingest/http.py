@@ -1,7 +1,7 @@
 """Polite HTTP downloads with timeouts and retries."""
 
 import time
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 
 import httpx
 
@@ -20,6 +20,7 @@ def fetch(
     client: httpx.Client,
     url: str,
     *,
+    headers: Mapping[str, str] | None = None,
     attempts: int = 3,
     backoff_s: float = 2.0,
     sleep: Callable[[float], None] = time.sleep,
@@ -32,6 +33,7 @@ def fetch(
     Args:
         client: The HTTP client.
         url: The URL to download.
+        headers: Extra request headers, for example ``Accept`` for content negotiation.
         attempts: Total number of tries.
         backoff_s: Wait before the first retry, in seconds.
         sleep: Wait function (replaced in tests).
@@ -44,7 +46,7 @@ def fetch(
     """
     for attempt in range(1, attempts + 1):
         try:
-            response = client.get(url)
+            response = client.get(url, headers=headers)
             response.raise_for_status()
             return response.content
         except httpx.HTTPStatusError as exc:
