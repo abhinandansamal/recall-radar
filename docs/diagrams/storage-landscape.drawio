@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Storage landscape" id="Storage landscape">
+    <mxGraphModel dx="1134" dy="785" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#d6b656;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;" value="Postgres flexible server (France Central, B1ms)" vertex="1">
+          <mxGeometry height="560" width="360" x="1000" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;" value="Lakehouse: Databricks + Unity Catalog on ADLS Gen2 (rr_dev / rr_test / rr_prod)" vertex="1">
+          <mxGeometry height="560" width="640" x="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;" value="Public sources" vertex="1">
+          <mxGeometry height="420" width="260" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="EU Safety Gate&lt;br&gt;weekly XML EN+DE + photo URLs" vertex="1">
+          <mxGeometry height="70" width="220" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="Amazon Berkeley Objects&lt;br&gt;listings + small images" vertex="1">
+          <mxGeometry height="70" width="220" x="40" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="EUR-Lex&lt;br&gt;GPSR HTML EN+DE" vertex="1">
+          <mxGeometry height="70" width="220" x="40" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="bronze.landing (volume)&lt;br&gt;raw files, hash in name" vertex="1">
+          <mxGeometry height="70" width="180" x="350" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="bronze.images (volume)&lt;br&gt;one file per SHA-256, private" vertex="1">
+          <mxGeometry height="70" width="180" x="350" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="bronze tables&lt;br&gt;raw + _metadata" vertex="1">
+          <mxGeometry height="60" width="160" x="570" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="silver tables&lt;br&gt;typed, DQ, SCD2" vertex="1">
+          <mxGeometry height="60" width="160" x="570" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="gold tables&lt;br&gt;search docs + embeddings" vertex="1">
+          <mxGeometry height="60" width="160" x="570" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="ops tables&lt;br&gt;runs, DQ, quarantine, KPIs" vertex="1">
+          <mxGeometry height="60" width="160" x="770" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="recall_radar.kb&lt;br&gt;DERIVED: alerts, identifiers, vectors, GPSR chunks" vertex="1">
+          <mxGeometry height="70" width="300" x="1030" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="recall_radar.app + agent&lt;br&gt;SOURCE OF TRUTH: snapshots, cases, reviews, actions, audit" vertex="1">
+          <mxGeometry height="80" width="300" x="1030" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="radarmart.shop&lt;br&gt;SOURCE OF TRUTH: listings, orders, buyers, sellers" vertex="1">
+          <mxGeometry height="80" width="300" x="1030" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="Recall Radar API&lt;br&gt;+ agents" vertex="1">
+          <mxGeometry height="70" width="160" x="1420" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="RadarMart app" vertex="1">
+          <mxGeometry height="70" width="160" x="1420" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;spacingLeft=6;" value="Langfuse EU&lt;br&gt;traces, 30 days" vertex="1">
+          <mxGeometry height="50" width="160" x="1420" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n7" value="download">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n7" value="download">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n7" value="download">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;dashed=1;" target="n8" value="photos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;dashed=1;" target="n8" value="photos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n9" value="Auto Loader">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n12" value="failed rules">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" edge="1" parent="1" source="n11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n14" value="export: staging + swap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e30" edge="1" parent="1" source="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n15" value="read/write">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e31" edge="1" parent="1" source="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n14" value="read">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e32" edge="1" parent="1" source="n18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n16" value="read/write">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e33" edge="1" parent="1" source="n18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n17" value="signed listing events">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" edge="1" parent="1" source="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;dashed=1;" target="n18" value="connector: approved actions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e35" edge="1" parent="1" source="n15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;dashed=1;" target="n12" value="nightly copy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e36" edge="1" parent="1" source="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;dashed=1;" target="n19" value="traces">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

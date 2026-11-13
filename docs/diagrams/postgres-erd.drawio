@@ -1,0 +1,133 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Postgres ERD" id="Postgres ERD">
+    <mxGraphModel dx="1691" dy="1170" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g102" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#b85450;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;" value="radarmart.shop (own database, own login role; no access from Recall Radar)" vertex="1">
+          <mxGeometry height="360" width="1660" x="20" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="g83" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#d6b656;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;" value="recall_radar.app (source of truth, strong consistency)" vertex="1">
+          <mxGeometry height="620" width="1060" x="620" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g76" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#d6b656;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;" value="recall_radar.kb (derived from gold, read-only for the app)" vertex="1">
+          <mxGeometry height="620" width="560" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n77" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;kb.alerts&lt;/b&gt;&lt;hr&gt;case_number PK&lt;br&gt;title_en, title_de, category&lt;br&gt;risk_type, risk_level, brand, model&lt;br&gt;published_at, is_withdrawn, source_url&lt;br&gt;search_en, search_de tsvector (GIN)&lt;br&gt;text_embedding halfvec(1024) (HNSW)" vertex="1">
+          <mxGeometry height="124" width="250" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n78" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;kb.alert_identifiers&lt;/b&gt;&lt;hr&gt;case_number FK&lt;br&gt;kind: gtin | brand_model&lt;br&gt;value_norm (B-tree)" vertex="1">
+          <mxGeometry height="79" width="250" x="310" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n79" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;kb.alert_images&lt;/b&gt;&lt;hr&gt;sha256 PK&lt;br&gt;case_number FK&lt;br&gt;source_url (shown in UI)&lt;br&gt;is_main&lt;br&gt;image_embedding halfvec(512) (HNSW)" vertex="1">
+          <mxGeometry height="109" width="250" x="310" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="n80" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;kb.gpsr_chunks&lt;/b&gt;&lt;hr&gt;chunk_id PK&lt;br&gt;doc_version, lang&lt;br&gt;article, paragraph, body&lt;br&gt;search tsvector (GIN)&lt;br&gt;embedding halfvec(1024) (HNSW)" vertex="1">
+          <mxGeometry height="109" width="250" x="40" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="e81" edge="1" parent="1" source="n77" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n78" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e82" edge="1" parent="1" source="n77" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n79" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n84" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.inbound_events&lt;/b&gt;&lt;hr&gt;event_id PK (dedup)&lt;br&gt;source, signature_ok&lt;br&gt;received_at" vertex="1">
+          <mxGeometry height="79" width="230" x="640" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n85" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.listing_snapshots&lt;/b&gt;&lt;hr&gt;snapshot_id PK&lt;br&gt;marketplace, listing_id&lt;br&gt;listing_version&lt;br&gt;payload jsonb (immutable)&lt;br&gt;payload_sha256, received_at" vertex="1">
+          <mxGeometry height="109" width="240" x="890" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n86" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.screenings&lt;/b&gt;&lt;hr&gt;screening_id PK&lt;br&gt;snapshot_id FK&lt;br&gt;trigger: A | B | nightly&lt;br&gt;result, confidence&lt;br&gt;model_versions jsonb" vertex="1">
+          <mxGeometry height="109" width="240" x="1150" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n87" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.candidates&lt;/b&gt;&lt;hr&gt;screening_id FK&lt;br&gt;case_number FK (kb)&lt;br&gt;rank&lt;br&gt;scores jsonb" vertex="1">
+          <mxGeometry height="94" width="250" x="1410" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n88" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.cases&lt;/b&gt;&lt;hr&gt;case_id PK&lt;br&gt;screening_id FK&lt;br&gt;status&lt;br&gt;deadline_at (B-tree)&lt;br&gt;assigned_to" vertex="1">
+          <mxGeometry height="109" width="240" x="1150" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="n89" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.reviews&lt;/b&gt;&lt;hr&gt;review_id PK&lt;br&gt;case_id FK&lt;br&gt;decision, reason (mandatory)&lt;br&gt;reviewer, decided_at" vertex="1">
+          <mxGeometry height="94" width="240" x="890" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="n90" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.actions&lt;/b&gt;&lt;hr&gt;action_id PK&lt;br&gt;case_id FK&lt;br&gt;type: remove | seller | buyer&lt;br&gt;status, approved_by&lt;br&gt;idempotency_key UNIQUE" vertex="1">
+          <mxGeometry height="109" width="250" x="1410" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="n91" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.outbox&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;action_id FK&lt;br&gt;payload, status, attempts" vertex="1">
+          <mxGeometry height="79" width="250" x="1410" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="n92" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;app.audit_log&lt;/b&gt;&lt;hr&gt;id PK (append-only)&lt;br&gt;at, actor, action&lt;br&gt;entity, entity_id, details&lt;br&gt;prev_hash (hash chain)" vertex="1">
+          <mxGeometry height="94" width="230" x="640" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="n93" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;agent.*&lt;/b&gt;&lt;hr&gt;LangGraph checkpoints&lt;br&gt;chat sessions + messages" vertex="1">
+          <mxGeometry height="64" width="230" x="640" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="e94" edge="1" parent="1" source="n84" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n85" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e95" edge="1" parent="1" source="n85" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n86" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e96" edge="1" parent="1" source="n86" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n87" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e97" edge="1" parent="1" source="n86" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n88" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e98" edge="1" parent="1" source="n88" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n89" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e99" edge="1" parent="1" source="n88" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n90" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e100" edge="1" parent="1" source="n90" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n91" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e101" edge="1" parent="1" source="n87" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;dashed=1;" target="n77" value="candidate alert">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n103" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;sellers&lt;/b&gt;&lt;hr&gt;seller_id PK&lt;br&gt;trader_name&lt;br&gt;address, email (synthetic)" vertex="1">
+          <mxGeometry height="79" width="230" x="40" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="n104" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;listings&lt;/b&gt;&lt;hr&gt;listing_id PK&lt;br&gt;seller_id FK&lt;br&gt;version, title, description&lt;br&gt;category, gtin, brand, model&lt;br&gt;price, stock CHECK &amp;gt;= 0&lt;br&gt;status" vertex="1">
+          <mxGeometry height="124" width="250" x="300" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="n105" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;listing_images&lt;/b&gt;&lt;hr&gt;sha256 PK&lt;br&gt;listing_id FK&lt;br&gt;blob_path" vertex="1">
+          <mxGeometry height="79" width="220" x="580" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="n106" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;buyers&lt;/b&gt;&lt;hr&gt;buyer_id PK&lt;br&gt;name, email (synthetic)" vertex="1">
+          <mxGeometry height="64" width="230" x="40" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="n107" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;orders / order_items&lt;/b&gt;&lt;hr&gt;order_id PK, buyer_id FK&lt;br&gt;listing_id FK, quantity" vertex="1">
+          <mxGeometry height="64" width="250" x="300" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="n108" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;event_outbox&lt;/b&gt;&lt;hr&gt;id PK, event_id UNIQUE&lt;br&gt;listing_id FK&lt;br&gt;payload, signature, status" vertex="1">
+          <mxGeometry height="79" width="250" x="830" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="n109" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;safety_notices&lt;/b&gt;&lt;hr&gt;notice_id PK&lt;br&gt;listing_id FK&lt;br&gt;kind, sent_at" vertex="1">
+          <mxGeometry height="79" width="250" x="830" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="e110" edge="1" parent="1" source="n103" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n104" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e111" edge="1" parent="1" source="n104" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n105" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e112" edge="1" parent="1" source="n106" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n107" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e113" edge="1" parent="1" source="n104" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n107" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e114" edge="1" parent="1" source="n104" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n108" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e115" edge="1" parent="1" source="n104" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n109" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e116" edge="1" parent="1" source="n108" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;dashed=1;" target="n84" value="signed events (outbox)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
