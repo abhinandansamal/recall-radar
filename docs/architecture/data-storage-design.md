@@ -110,6 +110,10 @@ photo files GB 49.5 | download hours at 5/s 18.3
 - The **photos are the biggest data** (~50 GB if the whole history is downloaded) and the **slowest to fetch**
   (~18 hours at a polite 5 requests per second). So photos are loaded **newest years first**, and the history
   depth for photos is a setting, not a code change.
+- **Measured on 2026-11-14 (US-011, the 2,000 newest photos):** 197 KB on average (median 157 KB),
+  53 % PNG / 47 % JPEG, 2.4 photos per alert (103,619 photo URLs for 42,525 current alerts). The full
+  photo history is therefore about **20 GB** and **5.8 hours** at 5 requests per second, not 50 GB / 18 h.
+  It is loaded in batches (`max_photos` per run), newest first; each run continues where the last stopped.
 - The app tables (cases, reviews, audit) stay in the low megabytes for the demo; they are not a size concern.
 
 ## 5. Store per entity
