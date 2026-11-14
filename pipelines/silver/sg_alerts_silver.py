@@ -48,8 +48,8 @@ if not (PACKAGE_SRC / "rr_transform").is_dir():
     raise RuntimeError(f"rr_transform not found under {PACKAGE_SRC}: run from the Git folder")
 sys.path.insert(0, str(PACKAGE_SRC))
 
-import rr_transform  # noqa: E402
-from rr_transform.sg_alert import SPARK_SCHEMA, clean_sg_alert  # noqa: E402
+import rr_transform
+from rr_transform.sg_alert import SPARK_SCHEMA, clean_sg_alert
 
 # Ship the package's code inside the UDF itself, so the Spark workers need no install.
 cloudpickle.register_pickle_by_value(rr_transform)
