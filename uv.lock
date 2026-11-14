@@ -7,6 +7,7 @@ members = [
     "recall-radar",
     "rr-core",
     "rr-ingest",
+    "rr-transform",
 ]
 
 [[package]]
@@ -711,6 +712,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "rr-core" },
     { name = "rr-ingest" },
+    { name = "rr-transform" },
 ]
 
 [package.dev-dependencies]
@@ -729,6 +731,7 @@ dev = [
 requires-dist = [
     { name = "rr-core", editable = "packages/core" },
     { name = "rr-ingest", editable = "packages/ingest" },
+    { name = "rr-transform", editable = "packages/transform" },
 ]
 
 [package.metadata.requires-dev]
@@ -804,6 +807,11 @@ requires-dist = [
     { name = "httpx", specifier = "==0.28.1" },
     { name = "rr-core", editable = "packages/core" },
 ]
+
+[[package]]
+name = "rr-transform"
+version = "0.1.0"
+source = { editable = "packages/transform" }
 
 [[package]]
 name = "ruff"
