@@ -284,6 +284,13 @@ How US-010 implements this (evidence: `docs/data/profiles/sg-alerts-bronze-2026-
 - **`valid_from`:** the publication date for the original file; the time the correction was stored for
   later files. **Withdrawal:** a case listed in an older file of a report but not in its newest file.
 - **Pictures:** `sg_alerts.picture_urls` (first = main photo); `sg_alert_images` is filled by US-011.
+- **File order must be known:** original vs correction is decided by the time each file was stored in the
+  landing volume. A bulk upload gives files the same time, so silver **stops** when two files of one report
+  share a time instead of guessing (found on 2026-11-14: a bulk upload had reversed one pair).
+- **Reports change after publication:** on 2026-11-14 the EC served new files for Reports 2026-21 to 2026-26;
+  of 505 re-delivered alerts per language only 10 had changed and became new versions, the rest collapsed.
+  `valid_from` of a correction is therefore when we stored it, not when the EC changed it, and the download
+  must run every week.
 
 ### 6.3 Embeddings
 
