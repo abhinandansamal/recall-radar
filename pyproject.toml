@@ -59,7 +59,7 @@ known-first-party = ["rr_core", "rr_ingest", "rr_transform"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101", "D", "ANN"]   # asserts and no docstrings are fine in tests
-"pipelines/**" = ["F821", "D100", "S101"]  # Databricks notebooks: spark, dbutils, display are provided by the runtime
+"pipelines/**" = ["F821", "D100", "S101", "E402"]  # Databricks notebooks: spark, dbutils, display come from the runtime; imports follow setup cells
 
 # ---------- mypy: strict typing ----------
 [tool.mypy]

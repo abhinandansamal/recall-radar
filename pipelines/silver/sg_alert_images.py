@@ -19,6 +19,20 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC Pillow decodes photos from the internet, so it must be a patched version. The runtime
+# MAGIC ships an older one; install the version pinned in `packages/ingest/pyproject.toml`.
+
+# COMMAND ----------
+
+# MAGIC %pip install pillow==13.0.0
+
+# COMMAND ----------
+
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
 import re
 import sys
 import threading
@@ -54,8 +68,13 @@ if not (PACKAGE_SRC / "rr_ingest").is_dir():
     raise RuntimeError(f"rr_ingest not found under {PACKAGE_SRC}: run from the Git folder")
 sys.path.insert(0, str(PACKAGE_SRC))
 
-from rr_ingest.images import check_photo  # noqa: E402
-from rr_ingest.landing import write_once  # noqa: E402
+import PIL
+
+from rr_ingest.images import check_photo
+
+if PIL.__version__ != "13.0.0":  # same pin as packages/ingest/pyproject.toml
+    raise RuntimeError(f"Pillow {PIL.__version__} loaded; run the %pip cell first")
+from rr_ingest.landing import write_once
 
 IMAGES_ROOT = Path(f"/Volumes/{CATALOG}/bronze/images")
 ALERTS = f"{CATALOG}.silver.sg_alerts"
@@ -71,7 +90,8 @@ LICENCE = "European Commission, Safety Gate; reuse with attribution (Decision 20
 _probe = f"_selftest/{RUN_ID}.txt"
 assert write_once(IMAGES_ROOT, _probe, b"ok") and not write_once(IMAGES_ROOT, _probe, b"ok")
 (IMAGES_ROOT / _probe).unlink()
-print(f"run_id={RUN_ID}\nmax_photos={MAX_PHOTOS} at {RATE}/s\nvolume={IMAGES_ROOT} (write ok)")
+print(f"run_id={RUN_ID}\npillow={PIL.__version__}\nvolume={IMAGES_ROOT} (write ok)")
+print(f"max_photos={MAX_PHOTOS} at {RATE}/s")
 
 # COMMAND ----------
 

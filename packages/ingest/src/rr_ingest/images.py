@@ -108,7 +108,7 @@ def difference_hash(image: Image.Image) -> str:
         16 hex digits.
     """
     small = image.convert("L").resize((9, 8), Image.Resampling.LANCZOS)
-    pixels = list(small.getdata())
+    pixels = small.tobytes()  # 72 grey values; works on all Pillow versions
     bits = 0
     for row in range(8):
         for col in range(8):
