@@ -172,6 +172,17 @@ def position_files(bronze: DataFrame, files: DataFrame) -> DataFrame:
     missing = report_files.where("file_stored_at IS NULL").count()
     if missing:
         raise RuntimeError(f"{missing} bronze files are not in the landing volume listing")
+    ties = (
+        report_files.groupBy("_report_reference", "lang", "file_stored_at")
+        .count()
+        .where("count > 1")
+        .select("_report_reference", "lang")
+        .collect()
+    )
+    if ties:
+        # Two files of one report stored at the same time: which one is the correction is
+        # unknown. Guessing could make an outdated text "current", so stop instead.
+        raise RuntimeError(f"ambiguous file order (same stored time) for {ties}")
     in_report = Window.partitionBy("_report_reference", "lang")
     ordered = in_report.orderBy("file_stored_at", "source_file")
     report_files = (
@@ -367,14 +378,15 @@ def dq_results(cleaned: DataFrame, alerts: DataFrame) -> DataFrame:
     b = latest.agg(
         F.count("*").alias("latest"),
         F.sum((F.col("risk_level") == "unknown").cast("int")).alias("bad_level"),
-        F.sum(F.size("gtins") + F.size("rejected_gtins")).alias("candidates"),
-        F.sum(F.size("rejected_gtins")).alias("bad_gtins"),
     ).first()
+    # Barcodes are the same in EN and DE: count each value once per alert, not per language.
+    good = latest.select("case_number", F.explode("gtins")).distinct().count()
+    bad = latest.select("case_number", F.explode("rejected_gtins")).distinct().count()
     rows = [
         ("case_number_valid", "sg_alerts", a.rows, a.bad_case or 0),
         ("publication_date_valid", "sg_alerts", a.rows, a.bad_date or 0),
         ("risk_level_known", "sg_alerts", b.latest, b.bad_level or 0),
-        ("gtin_check_digit", "sg_alert_identifiers", b.candidates or 0, b.bad_gtins or 0),
+        ("gtin_check_digit", "sg_alert_identifiers", good + bad, bad),
     ]
     return spark.createDataFrame(
         [
@@ -596,4 +608,9 @@ assert [(r.case_number, r.reason) for r in _qi] == [("SR/00005/99", "check_digit
 )
 assert ("SR/00002/99", "gtin", "04006381333931") in _ids, "GTIN key"
 assert ("SR/00001/99", "brand_model", "acme|tx100") in _ids, "brand+model key"
+try:  # same stored time for both files: the order is unknown, so the run must stop
+    position_files(_bronze, _files.withColumn("file_stored_at", F.lit(datetime(2026, 1, 1, 9))))
+    raise AssertionError("F: ambiguous file order was not detected")
+except RuntimeError as error:
+    assert "ambiguous file order" in str(error), "F"
 print("SELF-TEST PASSED")
