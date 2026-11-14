@@ -31,13 +31,10 @@
         <mxCell id="n42" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;gpsr_raw&lt;/b&gt;&lt;hr&gt;one row per document version + language&lt;br&gt;html, source_url, retrieved_at" vertex="1">
           <mxGeometry height="64" width="290" x="40" y="570" as="geometry" />
         </mxCell>
-        <mxCell id="n44" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;sg_alerts (SCD2)&lt;/b&gt;&lt;hr&gt;case_number, version&lt;br&gt;valid_from, valid_to, is_current&lt;br&gt;row_hash, is_withdrawn" vertex="1">
+        <mxCell id="n44" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;sg_alerts (SCD2)&lt;/b&gt;&lt;hr&gt;case_number, lang, version&lt;br&gt;valid_from, valid_to, is_current, is_withdrawn&lt;br&gt;row_hash, all fields (texts per language)" vertex="1">
           <mxGeometry height="79" width="320" x="400" y="80" as="geometry" />
         </mxCell>
-        <mxCell id="n45" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;sg_alert_texts&lt;/b&gt;&lt;hr&gt;case_number, lang&lt;br&gt;title, description, risk, measures" vertex="1">
-          <mxGeometry height="64" width="320" x="400" y="210" as="geometry" />
-        </mxCell>
-        <mxCell id="n46" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;sg_alert_identifiers&lt;/b&gt;&lt;hr&gt;case_number, kind&lt;br&gt;gtin (14 digits), brand_norm, model_norm" vertex="1">
+        <mxCell id="n46" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;sg_alert_identifiers&lt;/b&gt;&lt;hr&gt;case_number, kind&lt;br&gt;kind: gtin (14 digits) or brand_model, value_norm" vertex="1">
           <mxGeometry height="64" width="320" x="400" y="320" as="geometry" />
         </mxCell>
         <mxCell id="n47" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;" value="&lt;b&gt;sg_alert_images&lt;/b&gt;&lt;hr&gt;case_number, sha256, ordinal, is_main" vertex="1">
@@ -79,9 +76,6 @@
         <mxCell id="e61" edge="1" parent="1" source="n39" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n44" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e62" edge="1" parent="1" source="n39" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n45" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="e63" edge="1" parent="1" source="n39" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n46" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -98,9 +92,6 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e68" edge="1" parent="1" source="n44" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n52" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="e69" edge="1" parent="1" source="n45" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n52" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e70" edge="1" parent="1" source="n46" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=11;" target="n52" value="">

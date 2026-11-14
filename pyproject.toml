@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "GPSR Recall Radar: finds marketplace listings that match EU Safety Gate alerts."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
-dependencies = ["rr-core", "rr-ingest"]
+dependencies = ["rr-core", "rr-ingest", "rr-transform"]
 
 [tool.uv]
 package = false
@@ -19,6 +19,7 @@ members = ["packages/*"]
 [tool.uv.sources]
 rr-core = { workspace = true }
 rr-ingest = { workspace = true }
+rr-transform = { workspace = true }
 
 [dependency-groups]
 dev = [
@@ -54,7 +55,7 @@ select = [
 convention = "google"
 
 [tool.ruff.lint.isort]
-known-first-party = ["rr_core", "rr_ingest"]
+known-first-party = ["rr_core", "rr_ingest", "rr_transform"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101", "D", "ANN"]   # asserts and no docstrings are fine in tests
@@ -65,7 +66,7 @@ known-first-party = ["rr_core", "rr_ingest"]
 python_version = "3.12"
 strict = true
 warn_unreachable = true
-mypy_path = ["packages/core/src", "packages/ingest/src"]
+mypy_path = ["packages/core/src", "packages/ingest/src", "packages/transform/src"]
 plugins = ["pydantic.mypy"]
 
 # ---------- pytest + coverage ----------
@@ -80,7 +81,7 @@ markers = [
 ]
 
 [tool.coverage.run]
-source = ["rr_core", "rr_ingest"]
+source = ["rr_core", "rr_ingest", "rr_transform"]
 branch = true
 
 [tool.coverage.report]

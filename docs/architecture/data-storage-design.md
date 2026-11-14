@@ -212,9 +212,8 @@ flowchart TB
     b5[gpsr_raw<br/>one row per document version + language]
   end
   subgraph S[silver: typed, DQ, history]
-    s1[sg_alerts<br/>SCD2: valid_from, valid_to, is_current]
-    s2[sg_alert_texts<br/>case_number, lang, fields]
-    s3[sg_alert_identifiers<br/>GTIN, brand_norm, model_norm]
+    s1[sg_alerts<br/>case_number, lang; SCD2: valid_from, valid_to, is_current]
+    s3[sg_alert_identifiers<br/>kind gtin or brand_model, value_norm]
     s4[images<br/>sha256, size, phash, licence, source_url]
     s5[sg_alert_images<br/>case_number, sha256, ordinal, is_main]
     s6[abo_listings<br/>selected categories]
@@ -232,12 +231,12 @@ flowchart TB
     o3[quarantine_*]
     o4[kpi_daily, eval_results]
   end
-  b2 --> s1 & s2 & s3 & s5
+  b2 --> s1 & s3 & s5
   b3 --> s6
   b4 --> s4
   b5 --> s7
   s5 --> s4
-  s1 & s2 & s3 --> g1
+  s1 & s3 --> g1
   s4 & s5 --> g2
   s7 --> g3
   s6 & s4 --> g4
@@ -258,9 +257,10 @@ Silver rules (US-010, US-011):
 
 | Rule | Where | On failure |
 |------|-------|-----------|
-| `case_number` present and in format `A12/01234/26` or `SR/01234/26` | `sg_alerts` | Quarantine row |
+| `case_number` present and in one of the 10 measured formats (HTML tags and a trailing dot are repaired) | `sg_alerts` | Quarantine row |
 | GTIN check digit valid (8, 12, 13 or 14 digits) | `sg_alert_identifiers`, ABO | Quarantine the identifier, keep the alert |
-| Publication date not in the future | `sg_alerts` | Quarantine |
+| Publication date present, `dd-MM-yyyy`, not in the future | `sg_alerts` | Quarantine |
+| Risk level is one of the 3 known labels (EN/DE) | `sg_alerts` | Keep the alert as `unknown`, count in `ops.dq_results` |
 | Image decodes, size > 0, allowed type | `images` | Quarantine the image, keep the alert |
 | Update or withdrawal of an alert | `sg_alerts` | Not an error: close the old version (`valid_to`), open a new one (SCD2) |
 
@@ -268,6 +268,29 @@ Normalisation for exact keys (in silver, so the app does no guessing):
 `gtin` = digits only, zero-padded to 14; `brand_norm` and `model_norm` = lower case, accents removed,
 spaces and punctuation removed, ASCII only. Examples: `"EP-TA200"` → `"epta200"`,
 `" Samsung "` → `"samsung"`, GTIN `"4 006381 333931"` → `"04006381333931"`.
+
+How US-010 implements this (evidence: `docs/data/profiles/sg-alerts-bronze-2026-11-14.md`):
+
+- **Rules as code:** `packages/transform` (`rr_transform`), pure Python, unit-tested in CI; the notebook
+  `pipelines/silver/sg_alerts_silver.py` calls them in a Spark UDF.
+- **Full rebuild:** silver = rules(bronze) on every run, written with atomic `overwrite`. Right while
+  bronze is small (~96k rows, about a minute). Switch to an incremental `MERGE` when bronze passes
+  ~10 million rows or the run takes longer than ~15 minutes.
+- **One table per language version:** `sg_alerts` is keyed by `(case_number, lang)`. The EC sends one
+  complete record per language, so a separate `sg_alert_texts` table would need two histories kept in
+  sync; it was dropped. Gold takes texts per language and identifiers from either.
+- **Version order:** report year, report week, file (the file stored first is the original, later files
+  are corrections), position in the report. Identical consecutive contents (`row_hash`) collapse.
+- **`valid_from`:** the publication date for the original file; the time the correction was stored for
+  later files. **Withdrawal:** a case listed in an older file of a report but not in its newest file.
+- **Pictures:** `sg_alerts.picture_urls` (first = main photo); `sg_alert_images` is filled by US-011.
+- **File order must be known:** original vs correction is decided by the time each file was stored in the
+  landing volume. A bulk upload gives files the same time, so silver **stops** when two files of one report
+  share a time instead of guessing (found on 2026-11-14: a bulk upload had reversed one pair).
+- **Reports change after publication:** on 2026-11-14 the EC served new files for Reports 2026-21 to 2026-26;
+  of 505 re-delivered alerts per language only 10 had changed and became new versions, the rest collapsed.
+  `valid_from` of a correction is therefore when we stored it, not when the EC changed it, and the download
+  must run every week.
 
 ### 6.3 Embeddings
 
