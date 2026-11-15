@@ -24,6 +24,7 @@ LISTING = b"""<?xml version="1.0" encoding="UTF-8"?>
 
 SG = [
     "Toys",
+    "Lighting chains",  # sorts before "Lighting equipment": must not be picked for bulbs
     "Jewellery",
     "Lighting equipment",
     "Electrical appliances and equipment",
@@ -76,6 +77,8 @@ def test_landing_path_keeps_the_bucket_path():
         ("BABY_PRODUCT", "Childcare articles and children's equipment"),
         ("SHOES", "Clothing, textiles and fashion items"),
         ("light_bulb", "Lighting equipment"),
+        ("FINERING", "Jewellery"),
+        ("FASHIONNECKLACEBRACELETANKLET", "Jewellery"),
     ],
 )
 def test_proposals(product_type, category):
@@ -94,4 +97,4 @@ def test_whole_words_only():
 
 
 def test_rule_matches_but_category_absent_in_safety_gate():
-    assert propose_category("YOGA_MAT", SG) is None  # "Sports" is not in this list
+    assert propose_category("YOGA_MAT", SG) is None  # "Hobby/sports equipment" is not in SG

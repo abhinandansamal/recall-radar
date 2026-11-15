@@ -97,124 +97,51 @@ def landing_path(key: str) -> str:
 
 # Keyword rules for the *proposal* only, matched against whole words of the product type
 # ("LIGHT_BULB" -> {"LIGHT", "BULB"}), so "FAN" never matches "INFANT". First match wins.
-# Second element: a word that appears in the Safety Gate category name (English).
+# Second element: the exact Safety Gate category name (English), as in silver.
+# ABO also writes some types without underscores ("FINERING"); those are listed whole.
+def _words(text: str) -> frozenset[str]:
+    return frozenset(text.split())
+
+
 PROPOSAL_RULES: tuple[tuple[frozenset[str], str], ...] = (
     (
-        frozenset(
-            {
-                "RING",
-                "EARRING",
-                "NECKLACE",
-                "BRACELET",
-                "PENDANT",
-                "JEWELRY",
-                "ANKLET",
-                "BROOCH",
-                "CHARM",
-            }
+        _words(
+            "RING EARRING NECKLACE BRACELET PENDANT JEWELRY ANKLET BROOCH CHARM FINERING "
+            "FINEEARRING FINENECKLACEBRACELETANKLET FINEOTHER FASHIONRING FASHIONEARRING "
+            "FASHIONNECKLACEBRACELETANKLET FASHIONOTHER"
         ),
         "Jewellery",
     ),
     (
-        frozenset({"BABY", "INFANT", "TODDLER", "NURSERY", "CRIB", "STROLLER", "PACIFIER"}),
-        "Childcare",
+        _words("BABY INFANT TODDLER NURSERY CRIB STROLLER PACIFIER"),
+        "Childcare articles and children's equipment",
     ),
-    (frozenset({"TOY", "TOYS", "GAME", "GAMES", "PUZZLE", "DOLL"}), "Toys"),
+    (_words("TOY TOYS GAME GAMES PUZZLE PUZZLES DOLL"), "Toys"),
     (
-        frozenset(
-            {"LIGHT", "LIGHTING", "LAMP", "BULB", "LANTERN", "FLASHLIGHT", "CHANDELIER", "SCONCE"}
-        ),
-        "Lighting",
+        _words("LIGHT LIGHTING LAMP LAMPS BULB LANTERN FLASHLIGHT CHANDELIER SCONCE"),
+        "Lighting equipment",
     ),
     (
-        frozenset(
-            {
-                "ADAPTER",
-                "CHARGER",
-                "CABLE",
-                "BATTERY",
-                "POWER",
-                "FAN",
-                "HEATER",
-                "KETTLE",
-                "TOASTER",
-                "BLENDER",
-                "MIXER",
-                "VACUUM",
-                "IRON",
-                "DRYER",
-                "SHAVER",
-                "ELECTRONIC",
-                "ELECTRIC",
-                "APPLIANCE",
-                "SPEAKER",
-                "HEADPHONES",
-                "PLUG",
-                "OUTLET",
-            }
+        _words(
+            "ADAPTER CHARGER CABLE BATTERY POWER FAN HEATER KETTLE TOASTER BLENDER MIXER "
+            "VACUUM IRON DRYER SHAVER ELECTRONIC ELECTRIC APPLIANCE SPEAKER SPEAKERS "
+            "HEADPHONES PLUG OUTLET"
         ),
-        "Electrical",
+        "Electrical appliances and equipment",
     ),
     (
-        frozenset(
-            {
-                "SKIN",
-                "BEAUTY",
-                "COSMETIC",
-                "MAKEUP",
-                "LOTION",
-                "SHAMPOO",
-                "HAIR",
-                "NAIL",
-                "FRAGRANCE",
-                "SUNSCREEN",
-            }
-        ),
+        _words("SKIN BEAUTY COSMETIC MAKEUP LOTION SHAMPOO HAIR NAIL FRAGRANCE SUNSCREEN"),
         "Cosmetics",
     ),
     (
-        frozenset(
-            {"SPORT", "SPORTING", "FITNESS", "EXERCISE", "YOGA", "BICYCLE", "HELMET", "CAMPING"}
-        ),
-        "Sport",
+        _words("SPORT SPORTING FITNESS EXERCISE YOGA BICYCLE HELMET CAMPING"),
+        "Hobby/sports equipment",
     ),
-    (frozenset({"KITCHEN", "COOKWARE", "BAKEWARE", "CUP", "BOTTLE", "UTENSIL"}), "Kitchen"),
+    (_words("KITCHEN COOKWARE BAKEWARE CUP BOTTLE UTENSIL"), "Kitchen/cooking accessories"),
+    (_words("CHAIR SOFA TABLE DESK BED SHELF CABINET DRESSER FURNITURE STOOL BENCH"), "Furniture"),
     (
-        frozenset(
-            {
-                "CHAIR",
-                "SOFA",
-                "TABLE",
-                "DESK",
-                "BED",
-                "SHELF",
-                "CABINET",
-                "DRESSER",
-                "FURNITURE",
-                "STOOL",
-                "BENCH",
-            }
-        ),
-        "Furniture",
-    ),
-    (
-        frozenset(
-            {
-                "SHOES",
-                "BOOT",
-                "SANDAL",
-                "SHIRT",
-                "DRESS",
-                "PANTS",
-                "JACKET",
-                "COAT",
-                "HAT",
-                "SOCKS",
-                "APPAREL",
-                "CLOTHING",
-            }
-        ),
-        "Clothing",
+        _words("SHOES BOOT SANDAL SHIRT DRESS PANTS JACKET COAT HAT SOCKS APPAREL CLOTHING"),
+        "Clothing, textiles and fashion items",
     ),
 )
 
@@ -227,11 +154,11 @@ def propose_category(product_type: str | None, sg_categories: list[str]) -> str 
         sg_categories: Safety Gate category names (English) present in silver.
 
     Returns:
-        The first Safety Gate category whose name contains the keyword of the first matching
-        rule, or ``None`` if no rule matches (the product type is not proposed).
+        The Safety Gate category of the first matching rule if that category exists in
+        ``sg_categories``; ``None`` if no rule matches (the product type is not proposed).
     """
     words = set((product_type or "").upper().split("_"))
     for keywords, word in PROPOSAL_RULES:
         if words & keywords:
-            return next((c for c in sorted(sg_categories) if word.lower() in c.lower()), None)
+            return word if word in sg_categories else None
     return None
