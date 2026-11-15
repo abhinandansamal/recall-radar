@@ -30,6 +30,20 @@ jobs:
   quality:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    # Real Postgres + pgvector (same image as docker-compose.dev.yml) for the integration and
+    # contract tests. Trust auth: the container lives only for this job and holds no data.
+    services:
+      postgres:
+        image: pgvector/pgvector:0.8.7-pg17
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      RR_TEST_POSTGRES_DSN: postgresql://postgres@localhost:5432/postgres
     steps:
       - uses: actions/checkout@v7.0.1
 
@@ -47,11 +61,11 @@ jobs:
         run: uv run ruff format --check .
 
       - name: Types (mypy strict)
-        run: uv run mypy packages/core/src packages/ingest/src packages/transform/src
+        run: uv run mypy packages/core/src packages/export/src packages/ingest/src packages/transform/src
 
-      - name: Unit tests + coverage
+      - name: Unit, contract and integration tests + coverage
         run: >
-          uv run pytest tests/unit
+          uv run pytest tests/unit tests/contract tests/integration
           --cov --cov-report=term --cov-report=xml:reports/coverage.xml
           --junitxml=reports/junit.xml
 

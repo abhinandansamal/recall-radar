@@ -14,10 +14,10 @@ format:
 	uv run ruff format .
 
 types:
-	uv run mypy packages/core/src packages/ingest/src packages/transform/src
+	uv run mypy packages/core/src packages/export/src packages/ingest/src packages/transform/src
 
-test:
-	uv run pytest tests/unit --cov --cov-report=term
+test:             ## Database tests run only with RR_TEST_POSTGRES_DSN set (see tests/conftest.py)
+	uv run pytest tests/unit tests/contract tests/integration --cov --cov-report=term
 
 audit:
 	uv export --locked --no-hashes --no-emit-workspace --format requirements-txt | uv run pip-audit --strict -r /dev/stdin
