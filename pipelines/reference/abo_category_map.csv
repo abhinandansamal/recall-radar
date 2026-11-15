@@ -1,0 +1,577 @@
+abo_product_type,sg_category,include,abo_listings
+CELLULAR_PHONE_CASE,,false,64853
+SHOES,"Clothing, textiles and fashion items",true,12965
+GROCERY,,false,6546
+HOME,,false,5264
+HOME_BED_AND_BATH,,false,3082
+HOME_FURNITURE_AND_DECOR,,false,2255
+CHAIR,Furniture,true,2100
+BOOT,"Clothing, textiles and fashion items",true,2009
+SANDAL,"Clothing, textiles and fashion items",true,1845
+FINERING,Jewellery,true,1540
+HEALTH_PERSONAL_CARE,,false,1449
+FINENECKLACEBRACELETANKLET,Jewellery,true,1377
+ACCESSORY,,false,1362
+SOFA,Furniture,true,1199
+OFFICE_PRODUCTS,,false,1152
+FINEEARRING,Jewellery,true,1137
+PET_SUPPLIES,,false,1064
+SPORTING_GOODS,Hobby/sports equipment,true,972
+TABLE,Furniture,true,936
+HARDWARE_HANDLE,,false,860
+RUG,,false,817
+HANDBAG,,false,792
+LIGHT_BULB,Lighting equipment,true,756
+KITCHEN,Kitchen/cooking accessories,true,706
+HAT,"Clothing, textiles and fashion items",true,655
+EARRING,Jewellery,true,645
+OUTDOOR_LIVING,,false,635
+WALL_ART,,false,599
+JANITORIAL_SUPPLY,,false,579
+LAMP,Lighting equipment,true,544
+LIGHT_FIXTURE,Lighting equipment,true,544
+FLAT_SHEET,,false,476
+NECKLACE,Jewellery,true,457
+BEAUTY,Cosmetics,true,452
+SUITCASE,,false,429
+SAFETY_SUPPLY,,false,416
+OTTOMAN,Furniture,true,403
+STOOL_SEATING,Furniture,true,393
+BISS,,false,390
+DRINKING_CUP,Kitchen/cooking accessories,true,380
+TOOLS,,false,379
+FOOD_SERVICE_SUPPLY,,false,373
+RING,Jewellery,true,336
+PORTABLE_ELECTRONIC_DEVICE_COVER,,false,329
+HERB,,false,301
+AUTO_ACCESSORY,,false,299
+HEADBOARD,Furniture,true,297
+COFFEE,,false,293
+NUTRITIONAL_SUPPLEMENT,,false,287
+SHELF,Furniture,true,287
+PILLOW,,false,275
+PLANTER,,false,273
+BABY_PRODUCT,Childcare articles and children's equipment,true,263
+HARDWARE,,false,259
+BACKPACK,,false,258
+FURNITURE_COVER,,false,257
+SKIN_CLEANING_AGENT,Cosmetics,true,247
+LUGGAGE,,false,243
+WIRELESS_ACCESSORY,,false,241
+VITAMIN,,false,240
+STORAGE_HOOK,,false,236
+CABINET,Furniture,true,229
+BED,Furniture,true,221
+CLEANING_AGENT,Chemical products,true,214
+BATTERY,Electrical appliances and equipment,true,207
+COMPUTER_ADD_ON,,false,204
+PANTRY,,false,201
+STORAGE_BINDER,,false,188
+DESK,Furniture,true,180
+WALLET,,false,176
+SAUTE_FRY_PAN,Kitchen/cooking accessories,true,168
+SCREEN_PROTECTOR,,false,167
+SKIN_MOISTURIZER,Cosmetics,true,167
+LEGUME,,false,166
+WASTE_BAG,,false,165
+TEA,,false,164
+ACCESSORY_OR_PART_OR_SUPPLY,,false,163
+HEADPHONES,Electrical appliances and equipment,true,156
+BREAD,,false,154
+ABIS_DRUGSTORE,,false,152
+INSTRUMENT_PARTS_AND_ACCESSORIES,,false,152
+OFFICE_ELECTRONICS,,false,152
+JAR,,false,151
+CHARGING_ADAPTER,Electrical appliances and equipment,true,149
+PLUMBING_FIXTURE,,false,149
+HOME_LIGHTING_AND_LAMPS,Lighting equipment,true,146
+BRACELET,Jewellery,true,141
+FLAT_SCREEN_DISPLAY_MOUNT,,false,141
+ELECTRONIC_ADAPTER,Electrical appliances and equipment,true,140
+ABIS_LAWN_AND_GARDEN,,false,135
+RECREATION_BALL,Hobby/sports equipment,true,132
+CLOCK,,false,125
+FILE_FOLDER,,false,125
+WRITING_INSTRUMENT,,false,124
+FURNITURE,Furniture,true,123
+MEDICATION,,false,123
+CLOTHES_HANGER,,false,122
+DAIRY_BASED_DRINK,,false,114
+STORAGE_BAG,,false,114
+LABEL,,false,113
+COMPUTER_COMPONENT,,false,112
+HOME_MIRROR,,false,109
+EDIBLE_OIL_VEGETABLE,,false,107
+SAUCE,,false,107
+THERMOPLASTIC_FILAMENT,,false,107
+BENCH,Furniture,true,105
+TOWEL_HOLDER,,false,105
+UMBRELLA,,false,104
+BED_FRAME,Furniture,true,103
+SPEAKERS,Electrical appliances and equipment,true,103
+STORAGE_BOX,,false,102
+FINEOTHER,Jewellery,true,101
+FRUIT,,false,97
+DRESSER,Furniture,true,96
+MAJOR_HOME_APPLIANCES,,false,96
+FLATWARE,Kitchen/cooking accessories,true,94
+EXERCISE_MAT,Hobby/sports equipment,true,92
+BASKET,,false,89
+LAUNDRY_DETERGENT,Chemical products,true,86
+TEACHING_EQUIPMENT,,false,86
+DAIRY_BASED_CHEESE,,false,85
+LOCK,,false,84
+MECHANICAL_COMPONENTS,,false,84
+SWATCH,,false,84
+ELECTRIC_FAN,Electrical appliances and equipment,true,83
+PROTEIN_SUPPLEMENT_POWDER,,false,83
+NOODLE,,false,81
+WINE,,false,81
+VEGETABLE,,false,80
+PAPER_PRODUCT,,false,79
+STRING_LIGHT,Lighting chains,true,79
+SKIN_CLEANING_WIPE,Cosmetics,true,78
+SNACK_MIX,,false,77
+TOILET_PAPER_HOLDER,,false,77
+WRENCH,Hand tools,true,75
+BEAN_BAG_CHAIR,Furniture,true,73
+CLOTHES_RACK,,false,73
+TRASH_CAN,,false,73
+CARGO_STRAP,,false,72
+EYEWEAR,,false,72
+PROFESSIONAL_HEALTHCARE,,false,72
+DISHWARE_PLATE,Kitchen/cooking accessories,true,71
+DISHWARE_PLACE_SETTING,Kitchen/cooking accessories,true,70
+ENVELOPE,,false,70
+AUTO_PART,,false,69
+DUTCH_OVENS,Kitchen/cooking accessories,true,69
+HERBAL_SUPPLEMENT,,false,69
+POWER_SUPPLIES_OR_PROTECTION,Electrical appliances and equipment,true,69
+COOKIE,,false,68
+WINDOW_SHADE,,false,68
+BREAKFAST_CEREAL,,false,66
+COSMETIC_CASE,,false,65
+FAUCET,,false,64
+LAUNDRY_HAMPER,,false,63
+PRINT_COPY_PAPER,,false,62
+KEYBOARDS,,false,61
+WRITING_BOARD,,false,61
+BODY_POSITIONER,,false,60
+OUTDOOR_RECREATION_PRODUCT,,false,58
+SNACK_CHIP_AND_CRISP,,false,58
+JUICE_AND_JUICE_DRINK,,false,57
+DRYING_RACK,,false,56
+HOME_LIGHTING_ACCESSORY,Lighting equipment,true,56
+MULTIPORT_HUB,,false,56
+MUSCLE_ROLLER,Hobby/sports equipment,true,56
+VASE,,false,55
+BOTTLE,Kitchen/cooking accessories,true,54
+AREA_DEODORIZER,Chemical products,true,51
+SHAMPOO,Cosmetics,true,51
+MINERAL_SUPPLEMENT,,false,49
+PHONE_ACCESSORY,,false,49
+PORTABLE_ELECTRONIC_DEVICE_STAND,,false,48
+EARMUFF,Protective equipment,true,47
+LIP_COLOR,Cosmetics,true,47
+ABIS_BEAUTY,Cosmetics,true,46
+SECURITY_ELECTRONICS,,false,46
+WATER,,false,46
+COMPUTER_DRIVE_OR_STORAGE,,false,45
+INPUT_MOUSE,,false,45
+SUNSCREEN,Cosmetics,true,45
+CAMERA_OTHER_ACCESSORIES,,false,44
+FASHIONRING,Jewellery,true,44
+SAFE,,false,44
+TOTE_BAG,,false,44
+CAKE,,false,42
+CANDLE,,false,42
+DISHWARE_BOWL,Kitchen/cooking accessories,true,42
+EXERCISE_BAND,Hobby/sports equipment,true,42
+FACIAL_TISSUE,,false,41
+FASHIONNECKLACEBRACELETANKLET,Jewellery,true,41
+MOUTHWASH,Cosmetics,true,41
+ABIS_KITCHEN,Kitchen/cooking accessories,true,40
+CONSUMER_ELECTRONICS,,false,40
+LEOTARD,"Clothing, textiles and fashion items",true,39
+DRINK_FLAVORED,,false,38
+FOOD_BLENDER,Electrical appliances and equipment,true,37
+PACKAGED_SOUP_AND_STEW,,false,37
+TECHNICAL_SPORT_SHOE,Hobby/sports equipment,true,37
+TOY_FIGURE,Toys,true,37
+AIR_CONDITIONER,Electrical appliances and equipment,true,36
+CRACKER,,false,36
+STICKER_DECAL,,false,36
+VIDEO_GAME_ACCESSORIES,,false,36
+COSMETIC_BRUSH,,false,35
+CAMERA_TRIPOD,,false,34
+CONDITIONER,Cosmetics,true,34
+FASHIONEARRING,Jewellery,true,34
+BAKING_PAN,Kitchen/cooking accessories,true,33
+CE_ACCESSORY,,false,33
+FREESTANDING_SHELTER,,false,33
+SUGAR,,false,33
+CLEANING_BRUSH,,false,32
+MARKING_PEN,,false,32
+ORTHOPEDIC_BRACE,,false,32
+PORTABLE_ELECTRONIC_DEVICE_MOUNT,,false,32
+AUTO_OIL,,false,31
+PLACEMAT,,false,31
+BUCKET,,false,30
+CAMERA_BAGS_AND_CASES,,false,30
+DISHWASHER_DETERGENT,Chemical products,true,30
+NUT_BUTTER,,false,30
+SALAD_DRESSING,,false,30
+SCREWDRIVER,Hand tools,true,30
+VACUUM_CLEANER,Electrical appliances and equipment,true,30
+BATHWATER_ADDITIVE,Cosmetics,true,29
+CARRYING_CASE_OR_BAG,,false,29
+EARPLUG,Protective equipment,true,29
+POWER_STRIP,Electrical appliances and equipment,true,29
+SAFETY_GLASSES,Protective equipment,true,29
+SNACK_FOOD_BAR,,false,29
+DRILL_BITS,,false,28
+FASHIONOTHER,Jewellery,true,28
+FOOD_STORAGE_BAG,,false,28
+HUMIDIFIER,Electrical appliances and equipment,true,28
+MICROPHONE,,false,28
+STAPLER,,false,28
+WATCH,Jewellery,true,28
+ANTENNA,,false,27
+FLASH_MEMORY,,false,27
+HONEY,,false,27
+JEWELRY_STORAGE,,false,27
+SALWAR_SUIT_SET,"Clothing, textiles and fashion items",true,26
+STORAGE_RACK,,false,26
+CAMERA_LENS_FILTERS,,false,25
+JEWELRY_SET,Jewellery,true,25
+WATER_PURIFICATION_UNIT,,false,25
+DAIRY_BASED_ICE_CREAM,,false,24
+ELECTRIC_WATER_BOILER,Electrical appliances and equipment,true,24
+PERSONAL_CARE_APPLIANCE,Electrical appliances and equipment,true,24
+FLOUR,,false,23
+POULTRY,,false,23
+SHOE_INSERT,,false,23
+FRUIT_SNACK,,false,22
+LAB_SUPPLY,,false,22
+MEAL_HOLDER,,false,22
+PERSONAL_COMPUTER,,false,22
+DAIRY_BASED_CREAM,,false,21
+INK_OR_TONER,,false,21
+KITCHEN_KNIFE,Kitchen/cooking accessories,true,21
+NUTS,,false,21
+PORTABLE_AUDIO,Electrical appliances and equipment,true,21
+PUMP_DISPENSER,,false,21
+SOUND_AND_RECORDING_EQUIPMENT,,false,21
+STORAGE_DRAWER,,false,21
+CHOCOLATE_CANDY,,false,20
+COFFEE_MAKER,Electrical appliances and equipment,true,20
+SCISSORS,,false,20
+VEHICLE_INTERIOR_SHADE,,false,20
+WOUND_DRESSING,,false,20
+ABIS_ELECTRONICS,,false,19
+LIGHT_SOURCE,Lighting equipment,true,19
+STEERING_WHEEL_COVER,,false,19
+BLANK_MEDIA,,false,18
+DOORSTOP,,false,18
+MILK_SUBSTITUTE,,false,18
+PLIERS,Hand tools,true,18
+SHOWERHEAD,,false,18
+SUNGLASSES,,false,18
+SWEATBAND,,false,18
+BROOM,,false,17
+CE_CARRYING_CASE_OR_BAG,,false,17
+CURTAIN,,false,17
+EYELID_COLOR,Cosmetics,true,17
+INKJET_PRINTER_INK,,false,17
+MATTRESS,Furniture,true,17
+SEALS,,false,17
+TOOTHBRUSH,,false,17
+VINEGAR,,false,17
+BOTTLE_RACK,,false,16
+CHILDRENS_COSTUME,"Clothing, textiles and fashion items",true,16
+HARDWARE_HINGE,,false,16
+INCENSE,,false,16
+MOUSE_PAD,,false,16
+PHONE,,false,16
+POPCORN,,false,16
+SHIPPING_BOX,,false,16
+TOILET_SEAT,,false,16
+WHEEL,,false,16
+CANDY,,false,15
+CAN_OPENER,Kitchen/cooking accessories,true,15
+FOOD_SLICER,Kitchen/cooking accessories,true,15
+MEAT,,false,15
+PAPER_TOWEL_HOLDER,,false,15
+SHEET_PAN,Kitchen/cooking accessories,true,15
+TOYS_AND_GAMES,Toys,true,15
+VEHICLE_SEAT_COVER,,false,15
+VIDEO_PROJECTOR,,false,15
+WATER_PUMP,,false,15
+WILDLIFE_FEEDER,,false,15
+BAG,,false,14
+COMPUTER_INPUT_DEVICE,,false,14
+ELECTROMECHANICAL_GAUGE,,false,14
+PITCHER,Kitchen/cooking accessories,true,14
+TOASTER,Electrical appliances and equipment,true,14
+AV_FURNITURE,,false,13
+CARD_STOCK,,false,13
+COMPUTER,,false,13
+FISH,,false,13
+LADDER,,false,13
+PASTRY,,false,13
+STATIONARY_BICYCLE,Hobby/sports equipment,true,13
+TENT,,false,13
+WEIGH_SCALE,,false,13
+ABIS_HOME_IMPROVEMENT,,false,12
+BAKING_MIX,,false,12
+CANDLE_HOLDER,,false,12
+INPUT_PEN,,false,12
+MICROSCOPES,,false,12
+PRETZEL,,false,12
+RAZOR_BLADE_CARTRIDGE,,false,12
+REMOTE_CONTROL,,false,12
+TOY_SLIME,Toys,true,12
+ART_AND_CRAFT_SUPPLY,,false,11
+CASSEROLES,Kitchen/cooking accessories,true,11
+CHARM,Jewellery,true,11
+FIRST_AID_KIT,,false,11
+POT_HOLDER,,false,11
+UTILITY_KNIFE,Hand tools,true,11
+BODY_DEODORANT,Cosmetics,true,10
+ESSENTIAL_OIL,,false,10
+HAIR_IRON,Electrical appliances and equipment,true,10
+HAIR_STYLING_AGENT,Cosmetics,true,10
+LANDLINE_PHONE,,false,10
+PORTABLE_AV_DEVICE,,false,10
+RADIO,Electrical appliances and equipment,true,10
+BUILDING_MATERIAL,,false,9
+CHANGING_PAD_COVER,Childcare articles and children's equipment,true,9
+EDUCATIONAL_SUPPLIES,,false,9
+ELECTRONIC_CABLE,Electrical appliances and equipment,true,9
+HAIR_COMB,,false,9
+NOTEBOOK_COMPUTER,,false,9
+PET_APPAREL,,false,9
+PRESSURE_COOKER,,false,9
+RICE_COOKERS,Electrical appliances and equipment,true,9
+SLEEPING_BAG,,false,9
+SPIRITS,,false,9
+THERMOS,Kitchen/cooking accessories,true,9
+WASHER_DRYER_COMBINATION,Electrical appliances and equipment,true,9
+WATER_FLOTATION_DEVICE,Protective equipment,true,9
+ANIMAL_LITTER,,false,8
+ASTRINGENT_SUBSTANCE,,false,8
+BARBECUE_GRILL,,false,8
+BOXING_GLOVE,Hobby/sports equipment,true,8
+FOOD_MIXER,Electrical appliances and equipment,true,8
+FOOD_PROCESSOR,Electrical appliances and equipment,true,8
+HAIR_REMOVAL_AGENT,Cosmetics,true,8
+HARDWARE_TUBING,,false,8
+JUICER,Electrical appliances and equipment,true,8
+MULTITOOL,Hand tools,true,8
+PERSONAL_PILL_DISPENSER,,false,8
+PET_PEST_CONTROL,,false,8
+SKIN_EXFOLIANT,Cosmetics,true,8
+STRINGED_INSTRUMENTS,,false,8
+THERMOMETER,,false,8
+TOOTHBRUSH_HOLDER,,false,8
+VEST,"Clothing, textiles and fashion items",true,8
+AIR_MATTRESS,,false,7
+BARBELL,Hobby/sports equipment,true,7
+BOOKEND,,false,7
+CAMCORDER,,false,7
+CAMERA_SUPPORT,,false,7
+CAR_ELECTRONICS,,false,7
+FITNESS_BENCH,Hobby/sports equipment,true,7
+FOOD_PREPARATION_MOLD,,false,7
+GPS_OR_NAVIGATION_SYSTEM,,false,7
+HAIR_CLEANER_CONDITIONER,Cosmetics,true,7
+LICENSE_PLATE_ATTACHMENT,,false,7
+MANUAL_SHAVING_RAZOR,,false,7
+MASSAGER,Electrical appliances and equipment,true,7
+MICROWAVE_OVEN,Electrical appliances and equipment,true,7
+NAIL_POLISH,Cosmetics,true,7
+NETWORKING_DEVICE,,false,7
+PICTURE_FRAME,,false,7
+PUZZLES,Toys,true,7
+RICE_MIX,,false,7
+SELF_STICK_NOTE,,false,7
+AUTO_CHEMICAL,Chemical products,true,6
+BINOCULAR,,false,6
+COUNTERTOP_GRIDDLE_APPLIANCE,Electrical appliances and equipment,true,6
+DAIRY_BASED_BUTTER,,false,6
+FACE_SHAPING_MAKEUP,Cosmetics,true,6
+FISHING_EQUIPMENT,,false,6
+FOUNTAIN,,false,6
+FURNITURE_LINER,,false,6
+GOLF_CLUB_BAG,,false,6
+GPS_OR_NAVIGATION_ACCESSORY,,false,6
+ICE_CHEST,,false,6
+LAUNDRY_APPLIANCE,Electrical appliances and equipment,true,6
+MEDIA_STORAGE,,false,6
+PACIFIER,Childcare articles and children's equipment,true,6
+RUG_PAD,,false,6
+SYSTEM_POWER_DEVICE,Electrical appliances and equipment,true,6
+TOOTH_CLEANING_AGENT,Cosmetics,true,6
+VALVE,,false,6
+ABIS_PET_PRODUCTS,,false,5
+BAKING_CUP,Kitchen/cooking accessories,true,5
+CADDY,,false,5
+COUNTERTOP_OVEN,Electrical appliances and equipment,true,5
+DEHUMIDIFIER,Electrical appliances and equipment,true,5
+DIETARY_SUPPLEMENTS,,false,5
+FLASH_DRIVE,,false,5
+JERKY,,false,5
+LIP_BALM,Cosmetics,true,5
+MASCARA,Cosmetics,true,5
+MEASURING_CUP,Kitchen/cooking accessories,true,5
+NON_DAIRY_CREAM,,false,5
+POWER_CONVERTER,Electrical appliances and equipment,true,5
+REFRIGERATOR,,false,5
+SKATEBOARD,Hobby/sports equipment,true,5
+TELEVISION,,false,5
+TOY_BUILDING_BLOCK,Toys,true,5
+TRANSPORT_RACK,,false,5
+VEHICLE_LIGHT_BULB,,false,5
+VEHICLE_MIRROR,,false,5
+ABIS_BOOK,,false,4
+AMAZON_TABLET_ACCESSORY,,false,4
+BABY_BOTTLE,Childcare articles and children's equipment,true,4
+BADGE_HOLDER,,false,4
+BAKING_PAPER,,false,4
+BODY_LUBRICANT,,false,4
+BREAD_MAKING_MACHINE,Electrical appliances and equipment,true,4
+DRINKING_STRAW,,false,4
+DRINK_COASTER,,false,4
+EYEBROW_COLOR,Cosmetics,true,4
+FIGURINE,,false,4
+FLAVORED_DRINK_CONCENTRATE,,false,4
+HAIR_COLORING_AGENT,Cosmetics,true,4
+KITCHEN_TOOLS,Kitchen/cooking accessories,true,4
+LEAVENING_AGENT,,false,4
+LITTER_BOX,,false,4
+OVERALLS,"Clothing, textiles and fashion items",true,4
+PORTABLE_STOVE,,false,4
+PORTABLE_TOOL_BOX,,false,4
+RECEIVER_OR_AMPLIFIER,,false,4
+ROASTING_PAN,Kitchen/cooking accessories,true,4
+ROWING_MACHINE,Hobby/sports equipment,true,4
+SUGAR_CANDY,,false,4
+SUGAR_SUBSTITUTE,,false,4
+VACUUM_SEALER_MACHINE,Electrical appliances and equipment,true,4
+ARTIFICIAL_TREE,,false,3
+BOTTLE_OPENER,Kitchen/cooking accessories,true,3
+CALCULATOR,,false,3
+CAMERA_FLASH,,false,3
+COUNTERTOP_BURNER,,false,3
+DEEP_FRYER,Electrical appliances and equipment,true,3
+ELECTRONIC_DEVICE_DOCKING_STATION,,false,3
+ELECTRONIC_SWITCH,Electrical appliances and equipment,true,3
+FASTENER_DRIVE_BIT,,false,3
+FUEL_PUMP,,false,3
+HAIRBAND,,false,3
+HAIR_BRUSH,,false,3
+MASSAGE_STICK,,false,3
+NETWORK_INTERFACE_CONTROLLER_ADAPTER,,false,3
+PAINT_BRUSH,,false,3
+PERCUSSION_INSTRUMENTS,,false,3
+PET_TOY,,false,3
+PRINTER,,false,3
+PUNCHING_BAG,Hobby/sports equipment,true,3
+SAW_BLADE,,false,3
+SHELLFISH,,false,3
+SPORT_TABLE_GAME,Toys,true,3
+TWO_WAY_RADIO,,false,3
+VEHICLE_LIGHT_ASSEMBLY,,false,3
+ABIS_VIDEO_GAMES,,false,2
+AIR_COMPRESSOR,,false,2
+AIR_FRYER,Electrical appliances and equipment,true,2
+AIR_PUMP,,false,2
+ANIMAL_COLLAR,,false,2
+AUDIO_OR_VIDEO,,false,2
+COMPUTER_INPUT_DEVICE_ACCESSORY,,false,2
+COMPUTER_SPEAKER,Electrical appliances and equipment,true,2
+COOKIE_CUTTER,,false,2
+DISHWASHER,,false,2
+GUITARS,,false,2
+ICE_CUBE_TRAY,,false,2
+INFANT_TODDLER_CAR_SEAT,Childcare articles and children's equipment,true,2
+JEWELRY,Jewellery,true,2
+KNIFE_BLOCK_SET,,false,2
+NECKTIE,"Clothing, textiles and fashion items",true,2
+NON_RIDING_TOY_VEHICLE,Toys,true,2
+PINBOARD,,false,2
+POWER_BANK,Electrical appliances and equipment,true,2
+PROTEIN_DRINK,,false,2
+ROOM_DIVIDER,,false,2
+SECURITY_CAMERA,,false,2
+SLOW_COOKER,Electrical appliances and equipment,true,2
+SMALL_HOME_APPLIANCES,,false,2
+SPORT_RACKET,Hobby/sports equipment,true,2
+SURVEILANCE_SYSTEMS,,false,2
+TABLETOP_GAME,Toys,true,2
+TELESCOPE,,false,2
+TRACK_SUIT,"Clothing, textiles and fashion items",true,2
+UTILITY_CART_WAGON,,false,2
+VINE,,false,2
+WALKING_STICK,,false,2
+WALLPAPER,,false,2
+WHEEL_CUTTER,,false,2
+WRITING_PAPER,,false,2
+AGRICULTURAL_SUPPLIES,,false,1
+AIR_PURIFIER,Electrical appliances and equipment,true,1
+AMAZON_BOOK_READER_ACCESSORY,,false,1
+ARTIFICIAL_PLANT,,false,1
+AV_RECEIVER,,false,1
+BAKEWARE,Kitchen/cooking accessories,true,1
+BLANKET,,false,1
+BLOOD_PRESSURE_MONITOR,,false,1
+CAR_AUDIO_OR_THEATER,,false,1
+CELLULAR_PHONE,,false,1
+COMPUTER_COOLING_DEVICE,,false,1
+CONDIMENT,,false,1
+COOKING_OVEN,,false,1
+COSMETIC_POWDER,Cosmetics,true,1
+CUTTING_BOARD,,false,1
+CYCLING_EQUIPMENT,Hobby/sports equipment,true,1
+DIGITAL_DEVICE_3,,false,1
+DINNERWARE,,false,1
+DRILL,,false,1
+DVD_PLAYER_OR_RECORDER,,false,1
+FIREPLACE,,false,1
+FOOD_DEHYDRATOR,Electrical appliances and equipment,true,1
+GAME_DICE,Toys,true,1
+GARLIC_PRESS,,false,1
+GOLF_CLUB,Hobby/sports equipment,true,1
+HARDWARE_CLAMP_VISE,,false,1
+HOME_ORGANIZERS_AND_STORAGE,,false,1
+KICK_SCOOTER,Hobby/sports equipment,true,1
+LEHENGA_CHOLI_SET,"Clothing, textiles and fashion items",true,1
+MECHANICAL_LIGHTER,Lighters,true,1
+MEMORY_READER,,false,1
+MONITOR,,false,1
+NETWORKING_ROUTER,,false,1
+OTC_MEDICATION,,false,1
+OUTBUILDING,,false,1
+POWERSPORTS_VEHICLE_PART,,false,1
+REFRIGERATION_APPLIANCE,Electrical appliances and equipment,true,1
+ROBOTIC_VACUUM_CLEANER,Electrical appliances and equipment,true,1
+SCANNER,,false,1
+SCULPTURE,,false,1
+SHOVEL_SPADE,,false,1
+SKIN_FOUNDATION_CONCEALER,Cosmetics,true,1
+SKIN_TREATMENT_MASK,Cosmetics,true,1
+SLEEP_MASK,,false,1
+SOUS_VIDE_MACHINE,Electrical appliances and equipment,true,1
+STROLLER,Childcare articles and children's equipment,true,1
+SUSPENDER,,false,1
+SWING,,false,1
+TERMINAL_BLOCK,,false,1
+THICKENING_AGENT,,false,1
+TIMER,,false,1
+TREADMILL,Hobby/sports equipment,true,1
+VEHICLE_SAFETY_CAMERA,,false,1
+VEHICLE_SCAN_TOOL,,false,1
+VIDEO_DEVICE,,false,1
+VIVARIUM,,false,1
+WAIST_CINCHER,"Clothing, textiles and fashion items",true,1
+WIRELESS_LOCKED_PHONE,,false,1
