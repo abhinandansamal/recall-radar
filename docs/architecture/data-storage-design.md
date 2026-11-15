@@ -345,8 +345,8 @@ erDiagram
     text value_norm "B-tree index"
   }
   KB_ALERT_IMAGES {
+    text case_number PK "PK with sha256"
     text sha256 PK
-    text case_number FK
     text source_url "official EC URL shown in the UI"
     bool is_main
     halfvec_512 image_embedding "HNSW index"
@@ -532,6 +532,32 @@ never exist for a change that was rolled back. Recall Radar ignores duplicate `e
 4. In **one transaction**, rename `kb` → `kb_old` and `kb_staging` → `kb`; then drop `kb_old`.
 
 Readers see either the complete old version or the complete new one, never a half-loaded state.
+
+How US-012 implements this:
+
+```mermaid
+flowchart LR
+  S[silver tables] --> G[pipelines/gold/kb_gold.py<br/>gold.kb_* + checks]
+  G --> E[(gold.exports volume<br/>Parquet + manifest.json)]
+  E -->|databricks fs cp| X[rr_export.kb_job]
+  X --> ST[kb_staging<br/>COPY, indexes, checks]
+  ST -->|one transaction| KB[kb]
+```
+
+- **Files, not a direct write:** Databricks serverless cannot reach the Postgres firewall (developer IP
+  only; fixed outbound IPs for non-storage Azure resources need the Databricks account team or a paid
+  private endpoint). Gold writes an **export** (Parquet per table + `manifest.json` with row counts and
+  columns) to the volume `gold.exports`; the manifest is written last, so an export without it is incomplete.
+- **Exporter `rr_export.kb_job`:** reads the export, rebuilds `kb_staging`, loads with `COPY`, builds the
+  indexes, checks the row counts against the manifest and the schema against the contract, then swaps.
+  Any failure (count, contract, constraint) leaves `kb` unchanged. A Postgres advisory lock allows one
+  export at a time. Dev runs it on the laptop against the Docker Postgres; test and prod will run it as an
+  Azure Container Apps job (deployment epic), without code changes.
+- **One contract:** `packages/export/src/rr_export/kb_schema.py` defines the columns, the DDL and
+  `SCHEMA_VERSION`; the gold notebook, the exporter and the contract tests (`tests/contract/`) all use it.
+- **Changes against 7.2:** `kb.alert_images` is keyed by `(case_number, sha256)` because one photo can
+  belong to several alerts; `kb.export_info` records which export is live. Embedding columns and HNSW
+  indexes exist but stay empty until the embedding jobs (E3/E4); GPSR chunks follow with them.
 
 ## 8. Main data flows
 
