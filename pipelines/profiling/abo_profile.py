@@ -212,7 +212,10 @@ PROPOSAL.parent.mkdir(parents=True, exist_ok=True)
 PROPOSAL.write_text(buffer.getvalue(), encoding="utf-8")
 n_proposed = sum(1 for _, category, _ in proposal if category)
 print(f"proposal written: {PROPOSAL} ({n_proposed} of {len(proposal)} types proposed)")
-print(f"download: databricks fs cp dbfs:{PROPOSAL} pipelines/reference/abo_category_map.csv")
+if MAPPING.is_file():  # never suggest overwriting the reviewed decision
+    print(f"compare with the committed mapping: databricks fs cp dbfs:{PROPOSAL} /tmp/")
+else:
+    print(f"download: databricks fs cp dbfs:{PROPOSAL} pipelines/reference/abo_category_map.csv")
 display(
     spark.createDataFrame(
         proposal, "abo_product_type STRING, proposed_sg_category STRING, abo_listings BIGINT"
