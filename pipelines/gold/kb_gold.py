@@ -64,7 +64,10 @@ print(f"export_id={EXPORT_ID}\nschema_version={SCHEMA_VERSION}\nexport_dir={EXPO
 
 def title(df: DataFrame) -> Column:
     """Product type and name ("Toy car - Speedy 3000"); the category if both are empty."""
-    joined = F.concat_ws(" - ", df["product"], df["product_name"])
+    same = F.lower(F.trim(df["product"])) == F.lower(F.trim(df["product_name"]))
+    joined = F.when(same, df["product"]).otherwise(
+        F.concat_ws(" - ", df["product"], df["product_name"])
+    )
     return F.when(joined != "", joined).otherwise(df["category"])
 
 
