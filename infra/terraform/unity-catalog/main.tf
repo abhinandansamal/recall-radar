@@ -52,6 +52,16 @@ resource "databricks_volume" "bronze" {
   volume_type  = "MANAGED"
 }
 
+# Gold exports for the Postgres knowledge base (US-012): Parquet files + manifest.json per export.
+resource "databricks_volume" "gold_exports" {
+  for_each     = local.envs
+  catalog_name = databricks_catalog.env[each.key].name
+  schema_name  = databricks_schema.layer["${each.key}.gold"].name
+  name         = "exports"
+  volume_type  = "MANAGED"
+  comment      = "Gold exports for the Postgres knowledge base (US-012)"
+}
+
 output "catalogs" {
   value = [for c in databricks_catalog.env : c.name]
 }
