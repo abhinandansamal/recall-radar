@@ -61,7 +61,7 @@ jobs:
         run: uv run ruff format --check .
 
       - name: Types (mypy strict)
-        run: uv run mypy packages/core/src packages/export/src packages/ingest/src packages/transform/src
+        run: uv run mypy packages/core/src packages/eval/src packages/export/src packages/ingest/src packages/transform/src
 
       - name: Unit, contract and integration tests + coverage
         run: >
