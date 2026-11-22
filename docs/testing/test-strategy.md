@@ -18,6 +18,9 @@ in the repo, an environment, and a gate that blocks merge or release.
 | 9 | **Canary** (production) | A new release is safe with real users | Azure Container Apps revisions with traffic split (e.g. 10 % → 50 % → 100 %); watch error rate, p95 latency and online eval scores; automatic rollback to the previous revision | `.github/workflows/release.yml` (F17) | Prod, every release | SLOs hold during each step, otherwise rollback |
 | 10 | **Smoke** | The deployment is alive and wired correctly | `/healthz`, `/readyz`, one real request | CI after each deploy | Test + Prod | Pass, else the deploy is marked failed |
 
+Per-stage gates for the AI workloads (W1 screening, W2 assistant, W3 case workflow) and the security gates:
+[evaluation-gates.md](evaluation-gates.md). Threats and controls: [threat model](../security/threat-model.md).
+
 ## Where results are stored
 
 - CI test logs: JUnit XML + coverage XML as workflow artifacts (30 days), summary on the PR

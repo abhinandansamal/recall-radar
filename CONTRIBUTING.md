@@ -36,8 +36,10 @@ Test layers and gates: see [docs/testing/test-strategy.md](docs/testing/test-str
 - `make check` green: ruff, ruff format, mypy strict, coverage ≥ 85 % on core packages
 - Google-style docstrings on public functions and classes
 - JSON log events for new behaviour; no secrets or personal data in logs
-- Security review done (secrets, input validation, OWASP Top 10 for LLM apps where relevant)
-- Evaluation report `evals/reports/Fxx.md` (if the feature has a metric)
+- Security review done (secrets, input validation, OWASP Top 10 for LLM apps where relevant); for AI stories the
+  checklist in [docs/security/threat-model.md](docs/security/threat-model.md) section 5
+- Evaluation report `evals/reports/Fxx.md` (if the feature has a metric); for AI stories the gates of every stage
+  the story touches **and every stage after it**, see [docs/testing/evaluation-gates.md](docs/testing/evaluation-gates.md)
 - ADR written for every decision with alternatives; devlog updated
 - PR merged with green CI; deployed to **Test** and acceptance criteria shown there (from F17 on)
 
