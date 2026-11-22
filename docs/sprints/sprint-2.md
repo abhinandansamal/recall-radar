@@ -51,6 +51,8 @@
 
 ## New plan (Product Owner decision, 16 Nov)
 
+> Dates superseded on 22 Nov by the [Sprint 3 planning](sprint-3.md) (16–21 Nov: AI design phase, see ADR-0005); scope unchanged.
+
 The scope stays as in PRD v1.0; the release date moves from 19 Nov to **29 Nov**. One epic per sprint:
 
 | Sprint | Dates | Epic | Goal |
