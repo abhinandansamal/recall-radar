@@ -87,8 +87,7 @@ guardrails.
 
 ## Proof
 
-- Design plan with the review of the 11 RAG + Agents design documents: `AI-Design-Plan` (16 Nov 2026,
-  shared with the PO).
+- Full reasoning, options and cost model: [AI design plan](../architecture/ai-design-plan.md).
 - Gate results: `evals/reports/F06.md`, `F07.md`, `F08.md` (from Sprint 3).
 - Sources for model facts: Mistral pricing and regional inference pages, `bge-reranker-v2-m3` model card
   (checked 2026-11-16; re-checked in the bake-off).
