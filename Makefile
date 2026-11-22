@@ -14,7 +14,7 @@ format:
 	uv run ruff format .
 
 types:
-	uv run mypy packages/core/src packages/export/src packages/ingest/src packages/transform/src
+	uv run mypy packages/core/src packages/eval/src packages/export/src packages/ingest/src packages/transform/src
 
 test:             ## Database tests run only with RR_TEST_POSTGRES_DSN set (see tests/conftest.py)
 	uv run pytest tests/unit tests/contract tests/integration --cov --cov-report=term

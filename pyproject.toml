@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "GPSR Recall Radar: finds marketplace listings that match EU Safety Gate alerts."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
-dependencies = ["rr-core", "rr-export", "rr-ingest", "rr-transform"]
+dependencies = ["rr-core", "rr-eval", "rr-export", "rr-ingest", "rr-transform"]
 
 [tool.uv]
 package = false
@@ -21,6 +21,7 @@ rr-core = { workspace = true }
 rr-ingest = { workspace = true }
 rr-transform = { workspace = true }
 rr-export = { workspace = true }
+rr-eval = { workspace = true }
 
 [dependency-groups]
 dev = [
@@ -32,6 +33,7 @@ dev = [
     "pre-commit==4.7.0",
     "pip-audit==2.10.1",
     "types-defusedxml==0.7.0.20260504",
+    "types-pyyaml==6.0.12.20250915",
 ]
 
 # ---------- Ruff: linter + formatter ----------
@@ -56,7 +58,7 @@ select = [
 convention = "google"
 
 [tool.ruff.lint.isort]
-known-first-party = ["rr_core", "rr_export", "rr_ingest", "rr_transform"]
+known-first-party = ["rr_core", "rr_eval", "rr_export", "rr_ingest", "rr_transform"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101", "D", "ANN"]   # asserts and no docstrings are fine in tests
@@ -67,7 +69,7 @@ known-first-party = ["rr_core", "rr_export", "rr_ingest", "rr_transform"]
 python_version = "3.12"
 strict = true
 warn_unreachable = true
-mypy_path = ["packages/core/src", "packages/export/src", "packages/ingest/src", "packages/transform/src"]
+mypy_path = ["packages/core/src", "packages/eval/src", "packages/export/src", "packages/ingest/src", "packages/transform/src"]
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
@@ -86,7 +88,7 @@ markers = [
 ]
 
 [tool.coverage.run]
-source = ["rr_core", "rr_export", "rr_ingest", "rr_transform"]
+source = ["rr_core", "rr_eval", "rr_export", "rr_ingest", "rr_transform"]
 branch = true
 
 [tool.coverage.report]

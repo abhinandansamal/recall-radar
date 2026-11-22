@@ -1,0 +1,21 @@
+# Per-stage evaluation gates (docs/testing/evaluation-gates.md, ADR-0005).
+# A gate whose metric was not measured is "not run" (the stage is not built yet).
+# hard: true  -> a failure fails the run (and CI);  hard: false -> warning only.
+# Changing a threshold needs a PR with a reason.
+version: 1
+gates:
+  # ---------- W1 screening ----------
+  - {workload: screening, stage: exact_keys, metric: exact_key_recall, op: ">=", threshold: 1.0,
+     reason: "a missed exact match is catastrophic (design brief)"}
+  - {workload: screening, stage: exact_keys, metric: false_exact_match_rate, op: "<=", threshold: 0.0,
+     reason: "a wrong exact match must never happen"}
+  - {workload: screening, stage: candidates, metric: recall@20, op: ">=", threshold: 0.90}
+  - {workload: screening, stage: candidates, metric: recall@20, slice: each, op: ">=", threshold: 0.85,
+     reason: "no slice (language, image-only, evasion) may hide behind the average"}
+  - {workload: screening, stage: candidates, metric: recall@50, op: ">=", threshold: 0.95, hard: false}
+  - {workload: screening, stage: candidates, metric: mrr, op: no_regression, tolerance: 0.02, hard: false}
+  - {workload: screening, stage: rerank, metric: precision@5, op: ">=", threshold: 0.80}
+  - {workload: screening, stage: rerank, metric: ndcg@10, op: no_regression, tolerance: 0.02, hard: false}
+  - {workload: screening, stage: result, metric: catch_rate, op: ">=", threshold: 0.90}
+  - {workload: screening, stage: result, metric: false_alarm_rate, op: "<=", threshold: 0.05}
+  - {workload: screening, stage: e2e, metric: latency_p95_ms, op: "<=", threshold: 10000}
