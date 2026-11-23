@@ -186,3 +186,14 @@ def test_spot_check_sample_covers_slices_once_per_product():
     assert len({c["source"] for c in sample}) == 30
     assert {c["slices"][0] for c in sample} >= {"exact_key", "evasion", "look_alike"}
     assert sample == spot_check_sample(list(reversed(cases)))
+
+
+def test_html_entities_are_decoded():
+    pair = [
+        alert(c, title_en="Hairspray - Fix &amp; Shine", title_de="Haarspray - Fix &amp; Shine")
+        for c in ("SR/00001/25", "SR/00002/25")
+    ]
+    pair = [AlertRecord(**{**a.__dict__, "brand_models": ("sunny|sc100",)}) for a in pair]
+    titles = [c["query"].get("title", "") for c in build_matching_cases(pair, [])]
+    assert titles and all("&amp" not in t for t in titles)
+    assert "Hairspray - Fix & Shine" in titles
