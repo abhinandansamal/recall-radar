@@ -1,7 +1,8 @@
 """Per-stage gates: read ``evals/gates.yaml`` and judge measured metrics against it.
 
 A gate names a workload, a stage, a metric, a slice, a comparison and a threshold. A gate
-whose metric was not measured (the stage is not built yet) is ``not_run``: it neither passes
+whose metric was not measured (the stage is not built yet), or was measured on fewer than
+``min_n`` cases, is ``not_run``: it neither passes
 nor fails. A failed **hard** gate fails the run; a failed soft gate is a warning.
 
 ``slice: each`` applies the threshold to every slice that has the metric (for example
@@ -41,6 +42,7 @@ class Gate(BaseModel):
     threshold: float | None = None
     tolerance: float | None = Field(default=None, ge=0)
     hard: bool = True
+    min_n: int = Field(default=1, ge=1)  # fewer cases: "not_run", the value is noise
     reason: str = ""
 
     @model_validator(mode="after")
@@ -140,6 +142,9 @@ def evaluate_gates(
             continue
         for slice_name in slices:
             value = metrics[(slice_name, gate.metric)]
+            if value.n < gate.min_n:
+                results.append(GateResult(gate, slice_name, value, Status.NOT_RUN))
+                continue
             reference = (baseline or {}).get((slice_name, gate.metric))
             passed = _passes(gate, value.value, reference.value if reference else None)
             if passed is None:

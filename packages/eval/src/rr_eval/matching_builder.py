@@ -10,6 +10,9 @@ The set is built from data, not invented:
 - **Safe look-alikes**: ABO catalogue products of the same kinds as the alerts. They are not
   on any alert, so the expected result is "clear" (false-alarm cases).
 
+Alerts in :data:`EXCLUDED_CATEGORIES` (motor vehicles) are left out: car models are recalled
+again and again, so they would fill the set, and they are not sold as marketplace listings.
+
 Splits are assigned per **product**, never per case, so variants of one product never sit in
 both dev and test. The split comes from a hash of the product key: 60 % dev, 30 % test, 10 %
 holdout; the same input always gives the same set.
@@ -31,7 +34,12 @@ DESCRIPTION_MAX = 500
 SOURCE_ALERT = "safety_gate"
 SOURCE_ABO = "abo"  # Amazon Berkeley Objects, CC BY 4.0
 VARIANTS = ("exact", "no_id", "german", "photo", "evasion")
+EXCLUDED_CATEGORIES = ("motor vehicle",)  # matched in lower case inside category_en
+SPOT_CHECK_SIZE = 30
 _GENERIC_WORDS = ("New", "Premium", "2026", "Top quality", "Bestseller")
+_PLACEHOLDER_PART = re.compile(
+    r"\s*[-\u2013]\s*(unknown|unbekannt|not known|n/?a)\s*(?=[-\u2013,]|$)", flags=re.IGNORECASE
+)
 _EMPTY_LABEL = re.compile(
     r"\b(brand|model|type|marke|modell|typ)\b\s*:?\s*(?=[,.;]|$)", flags=re.IGNORECASE
 )
@@ -140,6 +148,7 @@ def build_matching_cases(
     Returns:
         Cases with ids ``M-0001``… in a stable order (products first, then look-alikes).
     """
+    alerts = [a for a in alerts if not is_excluded(a)]
     by_case = {alert.case_number: alert for alert in alerts}
     groups = product_groups(alerts)
     if max_groups is not None:
@@ -166,6 +175,36 @@ def build_matching_cases(
     for number, draft in enumerate(sorted(drafts, key=lambda d: d.sort_key), start=1):
         cases_out.append({"case_id": f"M-{number:04d}", **draft.data})
     return cases_out
+
+
+def is_excluded(alert: AlertRecord) -> bool:
+    """``True`` for alerts outside the marketplace scope (motor vehicles)."""
+    category = alert.category_en.lower()
+    return any(excluded in category for excluded in EXCLUDED_CATEGORIES)
+
+
+def spot_check_sample(
+    cases: Sequence[dict[str, Any]], size: int = SPOT_CHECK_SIZE
+) -> list[dict[str, Any]]:
+    """Pick cases for the Product Owner: every slice in turn, one case per product.
+
+    Cases are taken in hash order (not file order), so the sample is spread over the whole
+    set and the same input gives the same sample.
+    """
+    by_slice: dict[str, list[dict[str, Any]]] = {}
+    for case in sorted(cases, key=lambda c: _bucket(c["case_id"], 1 << 30)):
+        by_slice.setdefault(case["slices"][0], []).append(case)
+    sample: list[dict[str, Any]] = []
+    used_sources: set[str] = set()
+    while len(sample) < size and any(by_slice.values()):
+        for group in by_slice.values():
+            while group and len(sample) < size:
+                case = group.pop(0)
+                if case["source"] not in used_sources:
+                    used_sources.add(case["source"])
+                    sample.append(case)
+                    break
+    return sorted(sample, key=lambda c: c["case_id"])
 
 
 def to_jsonl(cases: Iterable[dict[str, Any]]) -> str:
@@ -205,7 +244,9 @@ def _variant(
         if not (has_key and alert.title_en):  # a real listing always has a title
             return None
         query = _query(alert.title_en, alert.description_en, "en")
-        query.update({k: v for k, v in (("brand", alert.brand), ("model", alert.model)) if v})
+        for name, value in (("brand", alert.brand), ("model", alert.model)):
+            if value:
+                query[name] = _clip_list(value, 100)
         if gtin:
             query["gtin"] = gtin
         return {**base, "slices": ["exact_key", "re_upload"], "query": query}
@@ -228,7 +269,7 @@ def _variant(
         return None
     query = _query(title, "", "en")
     if alert.model:
-        query["model"] = _disguise_model(alert.model, product_key)
+        query["model"] = _disguise_model(_clip_list(alert.model, 90), product_key)
     note = "brand removed, model disguised, title reworded"
     return {**base, "slices": ["evasion", "re_upload"], "query": query, "notes": note}
 
@@ -262,10 +303,19 @@ def _query(title: str, description: str, language: str) -> dict[str, Any]:
 
 
 def _clip(text: str, limit: int) -> str:
+    text = re.sub(r"\s+", " ", _PLACEHOLDER_PART.sub("", text)).strip()
+    if len(text) > limit:
+        text = text[:limit].rsplit(" ", 1)[0]
+    return text.strip(" ,;-\u2013")
+
+
+def _clip_list(text: str, limit: int) -> str:
+    """Shorten a list like ``"A1, A2, A3"`` at a separator, so no model number is cut in half."""
     text = re.sub(r"\s+", " ", text).strip()
     if len(text) <= limit:
         return text
-    return text[:limit].rsplit(" ", 1)[0].rstrip(" ,;-")
+    cut = max(text.rfind(sep, 0, limit) for sep in (",", ";"))
+    return (text[:cut] if cut > 0 else text[:limit]).strip(" ,;")
 
 
 def _strip_names(text: str, alert: AlertRecord) -> str:

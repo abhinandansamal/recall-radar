@@ -45,7 +45,14 @@ if not (PACKAGE_SRC / "rr_eval").is_dir():
 sys.path.insert(0, str(PACKAGE_SRC))
 
 # Only the plain-Python builder is imported here (no pydantic needed on the cluster).
-from rr_eval.matching_builder import AlertRecord, SafeListing, build_matching_cases, split_files
+from rr_eval.matching_builder import (
+    AlertRecord,
+    SafeListing,
+    build_matching_cases,
+    is_excluded,
+    split_files,
+    spot_check_sample,
+)
 
 GOLD = f"{CATALOG}.gold"
 ABO = f"{CATALOG}.bronze.abo_listings_raw"
@@ -106,7 +113,7 @@ alerts = [
     )
     for row in alert_rows
 ]
-print(f"{len(alerts)} alerts")
+print(f"{len(alerts)} alerts, {sum(map(is_excluded, alerts))} left out (motor vehicles)")
 
 # COMMAND ----------
 
@@ -135,6 +142,7 @@ abo = (
         brand.alias("brand"),
     )
     .where("title IS NOT NULL")
+    .where(~F.col("title").startswith("[Find]"))  # ABO test items with romanised Japanese
     .dropDuplicates(["item_id"])  # ABO has duplicate item_ids (see silver backlog)
     .orderBy(F.xxhash64("item_id"))
     .limit(5000)
@@ -156,19 +164,13 @@ OUT.mkdir(parents=True, exist_ok=True)
 (OUT / "v1.jsonl").write_text(main_text, encoding="utf-8")
 (OUT / "v1.holdout.jsonl").write_text(holdout_text, encoding="utf-8")
 
-# 30 cases for the Product Owner: every slice and split represented, picked by case id hash.
-by_slice: dict[str, list[dict]] = {}
-for case in cases:
-    by_slice.setdefault(case["slices"][0], []).append(case)
-sample: list[dict] = []
-while len(sample) < min(30, len(cases)):
-    for group in by_slice.values():
-        if group and len(sample) < 30:
-            sample.append(group.pop(len(group) // 2))
+sample = spot_check_sample(cases)
 buffer = io.StringIO()
 writer = csv.writer(buffer)
-writer.writerow(["case_id", "slice", "expected", "title", "source", "relevant", "ok?", "note"])
-for case in sorted(sample, key=lambda c: c["case_id"]):
+writer.writerow(
+    ["case_id", "slice", "expected", "title", "model", "source", "relevant", "ok?", "note"]
+)
+for case in sample:
     q = case["query"]
     writer.writerow(
         [
@@ -176,6 +178,7 @@ for case in sorted(sample, key=lambda c: c["case_id"]):
             case["slices"][0],
             case["expected"],
             q.get("title", "(photo)"),
+            q.get("model", ""),
             case["source"],
             " ".join(case["relevant"]),
             "",

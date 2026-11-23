@@ -108,3 +108,12 @@ def test_broken_gate_files(tmp_path):
     bad.write_text("version: [1\n", encoding="utf-8")
     with pytest.raises(GateError, match=r"gates\.yaml"):
         load_gates(bad)
+
+
+def test_too_few_cases_is_not_run():
+    metrics = {("image_only", "recall@20"): mv(0.5, n=8), ("de", "recall@20"): mv(0.5, n=40)}
+    results = evaluate_gates((gate(slice="each", min_n=20),), "screening", metrics)
+    assert {r.slice: r.status for r in results} == {
+        "de": Status.FAILED,
+        "image_only": Status.NOT_RUN,
+    }

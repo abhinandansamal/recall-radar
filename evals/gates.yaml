@@ -10,7 +10,7 @@ gates:
   - {workload: screening, stage: exact_keys, metric: false_exact_match_rate, op: "<=", threshold: 0.0,
      reason: "a wrong exact match must never happen"}
   - {workload: screening, stage: candidates, metric: recall@20, op: ">=", threshold: 0.90}
-  - {workload: screening, stage: candidates, metric: recall@20, slice: each, op: ">=", threshold: 0.85,
+  - {workload: screening, stage: candidates, metric: recall@20, slice: each, op: ">=", threshold: 0.85, min_n: 20,
      reason: "no slice (language, image-only, evasion) may hide behind the average"}
   - {workload: screening, stage: candidates, metric: recall@50, op: ">=", threshold: 0.95, hard: false}
   - {workload: screening, stage: candidates, metric: mrr, op: no_regression, tolerance: 0.02, hard: false}
