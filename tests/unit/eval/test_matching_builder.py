@@ -3,14 +3,19 @@
 import json
 from collections import Counter
 
+import pytest
+
 from rr_eval.matching_builder import (
     AlertRecord,
     SafeListing,
     build_matching_cases,
     is_excluded,
     product_groups,
+    product_links,
+    same_product,
     split_files,
     split_for,
+    spot_check_rows,
     spot_check_sample,
 )
 from rr_eval.schemas import MatchingCase
@@ -46,9 +51,15 @@ SAFE = [
 ]
 
 
-def test_groups_join_transitively_and_drop_singletons():
+def test_groups_hold_linked_alerts_and_drop_singletons():
     groups = product_groups(ALERTS)
-    assert groups == [("bm:sunny|sc100", ("SR/00001/26", "SR/00002/26", "SR/00003/26"))]
+    assert groups == [("case:SR/00001/26", ("SR/00001/26", "SR/00002/26", "SR/00003/26"))]
+
+
+def test_relevant_alerts_are_direct_links_only():
+    links = product_links(ALERTS)
+    assert links["SR/00002/26"] == {"SR/00001/26", "SR/00003/26"}
+    assert links["SR/00001/26"] == {"SR/00002/26"}  # A1-A3 only via A2: no chain
 
 
 def test_split_is_stable_and_roughly_60_30_10():
@@ -78,7 +89,7 @@ def test_leave_one_out_and_one_split_per_product():
     product_cases = [c for c in build_matching_cases(ALERTS, SAFE) if c["expected"] == "match"]
     (source,) = {c["exclude_ids"][0] for c in product_cases}
     assert all(source not in c["relevant"] for c in product_cases)
-    assert all(len(c["relevant"]) == 2 for c in product_cases)
+    assert all(len(c["relevant"]) >= 1 for c in product_cases)
     assert len({c["split"] for c in product_cases}) == 1
 
 
@@ -205,3 +216,216 @@ def test_html_entities_are_decoded():
     assert "Hairspray - Fix & Shine" in titles
     exact = build_matching_cases(pair, [])[0]["query"]
     assert exact["brand"] == "Fix & Shine" and exact["model"] == "FS-1 & FS-2"
+
+
+# The Product Owner's spot-check of 23 Nov 2026 (source alert vs relevant alert). The rule
+# must reject every pair the PO marked as different. M-0136 and M-0214 were the same product
+# but are rejected too: the names share no word (accepted loss; a wrong answer is worse).
+PO_PAIRS = [
+    (
+        "M-0032",
+        "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS, 8in1, 160000 puffs",
+        "AiRMEZ",
+        "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS 8in1 160000 PUFFS",
+        "AiRMEZ",
+        True,
+    ),
+    (
+        "M-0106",
+        "Deodorant - Neutro deodorante profumato",
+        "Breeze",
+        "Deodorant spray - Neutro",
+        "Breeze",
+        True,
+    ),
+    ("M-0118", "Fireworks - Colpo", "Bufalo", "Fireworks - Zanzara", "Bufalo", False),
+    (
+        "M-0136",
+        "Skin-lightening product - Crème éclaircissante 3 en 1",
+        "Carotone - LIGHT AND NATURAL",
+        "Skin lightening product - Light &amp; Natural brightening cream",
+        "Carotone",
+        False,
+    ),
+    (
+        "M-0214",
+        "Tattoo ink - Dynamic Tattoo Ink Grey 30 ml lotto 111224-DP",
+        "Dynamic Platinum",
+        "Tattoo ink - Platinum",
+        "Dynamic",
+        False,
+    ),
+    (
+        "M-0231",
+        "Perfume - Amethyste",
+        "Elementi di Byblos",
+        "Cosmetic set - Fiori di Essenza Divina",
+        "Renato Balestra",
+        False,
+    ),
+    (
+        "M-0280",
+        "Shower gel - ACTIV &amp; PURE, značka Fa MEN",
+        "Fa MEN",
+        "Shower gel - 3i1 shower gel ACTIVE &amp; PURE MEN",
+        "Fa MEN",
+        True,
+    ),
+    (
+        "M-0339",
+        "Fireworks - Burst Blow",
+        "Grand Prix",
+        "Fireworks - G-Force Glitter",
+        "Grand Prix",
+        False,
+    ),
+    (
+        "M-0376",
+        "USB charger - Smart USB charger",
+        "hoco.",
+        "USB Charger - Smart USB Charger",
+        "hoco.",
+        True,
+    ),
+    (
+        "M-0454",
+        "Earrings - 3 pairs earrings",
+        "Kik",
+        "Earrings - 4 pairs of ear studs",
+        "Kik",
+        False,
+    ),
+    (
+        "M-0476",
+        "Disposable electronic cigarette - 5 % NICOTINE, 110000 puffs",
+        "LANA JOY TORNADO",
+        "Disposable electronic cigarette - 5 % NICOTINE, 120000 puffs, volume: 40 ml",
+        "LANA JOY TORNADO",
+        False,
+    ),
+    (
+        "M-0511",
+        "Face cream - Nourishing Facial Cream with beeswax and vegetable oil",
+        "Margarita",
+        "Face cream - Moisturising Facial Cream with natural whey",
+        "Margarita",
+        False,
+    ),
+    (
+        "M-0525",
+        "Eau de toilette - VETIVER BOURBON",
+        "Monotheme",
+        "Aftershave",
+        "Sergio Soldano",
+        False,
+    ),
+    (
+        "M-0564",
+        "Deodorant - Protect &amp; Care",
+        "Nivea",
+        "Deodorant - Protect care",
+        "Nivea",
+        True,
+    ),
+    (
+        "M-0675",
+        "Shower gel - VIP GLAM ORCHID SCENT",
+        "Playboy",
+        "Shower gel - PLAYBOY VIP shower gel glam orchid scent",
+        "Playboy VIP",
+        True,
+    ),
+    (
+        "M-0734",
+        "Disposable electronic cigarette - 6in1 140000 PUFFS 2% NICOTINE",
+        "RENdM TORNADO",
+        "Disposable electronic cigarette - 120000 PUFFS 2% NICOTINE 38ml",
+        "RENdM TORNADO",
+        False,
+    ),
+    (
+        "M-0849",
+        "Hair dye - Palette professional mixing colors",
+        "TESTANERA",
+        "Hair dye - Palette professional mixing colors 4 - 86 Mix castano agata",
+        "TESTANERA",
+        True,
+    ),
+    (
+        "M-0870",
+        "USB charger - 25W PD Adapter",
+        "TREQA",
+        "USB charger - TRAVEL ADAPTER, 25W PD Adapter",
+        "TREQA",
+        True,
+    ),
+    (
+        "M-0925",
+        "Hairspray - Fix &amp; Shine",
+        "L'OREAL PARIS",
+        "Fixing spray - Studio line  Fix &amp; Shine",
+        "L'OREAL PARIS",
+        True,
+    ),
+    (
+        "M-0971",
+        "Lighting chain - 210CM X 210CM LED",
+        None,
+        "Lighting chain - 210 cm x 210 cm LED",
+        None,
+        True,
+    ),
+    ("M-0975", "Lighting chain", None, "Lighting chain - LED", None, True),
+    (
+        "M-1025",
+        "Perfume - Right Starlight",
+        "Comin parfum",
+        "Eau de toilette - Right Starlight",
+        "Comin parfum",
+        True,
+    ),
+    (
+        "M-1060",
+        "Shower gel - Fresia di Lanzarote",
+        "Perlier",
+        "Shower gel - Fresia di Lanzarote",
+        "Perlier",
+        True,
+    ),
+    (
+        "M-1100",
+        "Eau de toilette - Blue club",
+        "Prady Parfums",
+        "Eau de toilette - Blueberry's woman",
+        "Prady Parfums",
+        False,
+    ),
+    ("M-1204", "Hair dye - Brown Henna", "Topline", "Hair dye - Brown Henna", "Royal", False),
+]
+
+
+@pytest.mark.parametrize(("case_id", "title_a", "brand_a", "title_b", "brand_b", "same"), PO_PAIRS)
+def test_same_product_agrees_with_po_spot_check(case_id, title_a, brand_a, title_b, brand_b, same):
+    a = AlertRecord("1/11", title_en=title_a, brand=brand_a)
+    b = AlertRecord("2/11", title_en=title_b, brand=brand_b)
+    assert same_product(a, b) is same, case_id
+
+
+def test_keys_on_many_alerts_and_flavour_lists_do_not_link():
+    shared_cert = [alert(f"SR/{i:05d}/26", brand_models=("bufalo|0163p15178",)) for i in range(11)]
+    assert product_links(shared_cert) == {}
+    flavours = tuple(f"vape|flavour{i}" for i in range(4))
+    vapes = [alert(c, brand_models=flavours) for c in ("SR/00001/26", "SR/00002/26")]
+    assert product_links(vapes) == {}
+
+
+def test_spot_check_rows_show_both_sides():
+    cases = build_matching_cases(ALERTS, SAFE)
+    rows = spot_check_rows(spot_check_sample(cases), ALERTS, SAFE)
+    match = next(r for r in rows if r["expected"] == "match")
+    assert match["source_title"] == "Baby soother holder - Sunny Clip"
+    assert match["relevant_title"] == "Baby soother holder - Sunny Clip"
+    assert match["relevant_brand"] == "Sunny" and match["ok?"] == ""
+    clear = next(r for r in rows if r["expected"] == "clear")
+    assert clear["source_title"] in {"Silicone soother clip, pink", "Schnullerkette aus Holz"}
+    assert clear["relevant"] == "" and clear["relevant_title"] == ""

@@ -50,11 +50,13 @@ for name in [m for m in sys.modules if m == "rr_eval" or m.startswith("rr_eval."
 
 # Only the plain-Python builder is imported here (no pydantic needed on the cluster).
 from rr_eval.matching_builder import (
+    SPOT_CHECK_COLUMNS,
     AlertRecord,
     SafeListing,
     build_matching_cases,
     is_excluded,
     split_files,
+    spot_check_rows,
     spot_check_sample,
 )
 
@@ -168,27 +170,12 @@ OUT.mkdir(parents=True, exist_ok=True)
 (OUT / "v1.jsonl").write_text(main_text, encoding="utf-8")
 (OUT / "v1.holdout.jsonl").write_text(holdout_text, encoding="utf-8")
 
-sample = spot_check_sample(cases)
+# 30 cases for the Product Owner, source product and relevant alert side by side.
+sample = spot_check_rows(spot_check_sample(cases), alerts, safe)
 buffer = io.StringIO()
-writer = csv.writer(buffer)
-writer.writerow(
-    ["case_id", "slice", "expected", "title", "model", "source", "relevant", "ok?", "note"]
-)
-for case in sample:
-    q = case["query"]
-    writer.writerow(
-        [
-            case["case_id"],
-            case["slices"][0],
-            case["expected"],
-            q.get("title", "(photo)"),
-            q.get("model", ""),
-            case["source"],
-            " ".join(case["relevant"]),
-            "",
-            "",
-        ]
-    )
+writer = csv.DictWriter(buffer, fieldnames=SPOT_CHECK_COLUMNS)
+writer.writeheader()
+writer.writerows(sample)
 (OUT / "spot_check.csv").write_text(buffer.getvalue(), encoding="utf-8")
 
 print(f"{len(cases)} cases written to {OUT}")

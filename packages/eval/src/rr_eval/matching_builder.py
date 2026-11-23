@@ -2,9 +2,10 @@
 
 The set is built from data, not invented:
 
-- **Repeat alerts** (re-uploads): alerts that share an exact key (GTIN or brand + model) are
-  the same product. For each such product one alert becomes the "listing" and is excluded
-  from the search; the other alerts are the answer ("leave one out"). Each source gives up to
+- **Repeat alerts** (re-uploads): alerts that share an exact key (GTIN or brand + model)
+  **and** pass :func:`same_product` (brand, size and name agree) are the same product. For
+  each such product one alert becomes the "listing" and is excluded from the search; the
+  alerts linked directly to it are the answer ("leave one out"). Each source gives up to
   five variants: with identifiers, without identifiers, German text, photo only, and an
   evasion variant (brand removed, model number disguised, title reworded).
 - **Safe look-alikes**: ABO catalogue products of the same kinds as the alerts. They are not
@@ -37,6 +38,13 @@ SOURCE_ABO = "abo"  # Amazon Berkeley Objects, CC BY 4.0
 VARIANTS = ("exact", "no_id", "german", "photo", "evasion")
 EXCLUDED_CATEGORIES = ("motor vehicle",)  # matched in lower case inside category_en
 SPOT_CHECK_SIZE = 30
+MAX_ALERTS_PER_KEY = 10  # a key on more alerts is a certificate, range or group code
+MAX_MODEL_KEYS = 3  # more models in one alert: a list of flavours or sizes, not one model
+MIN_NAME_OVERLAP = 0.5
+_GENERIC_WORDS_IN_NAMES = frozenset(
+    {"and", "the", "for", "with", "und", "mit", "für", "der", "die", "das", "new"}
+    | {"pair", "pairs", "pack", "set", "piece", "pieces", "pcs"}
+)
 _GENERIC_WORDS = ("New", "Premium", "2026", "Top quality", "Bestseller")
 _PLACEHOLDER_PART = re.compile(
     r"\s*[-\u2013]\s*(unknown|unbekannt|not known|n/?a)\s*(?=[-\u2013,]|$)", flags=re.IGNORECASE
@@ -81,43 +89,88 @@ class _Draft:
     data: dict[str, Any] = field(default_factory=dict)
 
 
-def product_groups(alerts: Iterable[AlertRecord]) -> list[tuple[str, tuple[str, ...]]]:
-    """Group alerts that share any exact key; keep groups of two or more.
+def same_product(a: AlertRecord, b: AlertRecord) -> bool:
+    """Decide whether two alerts that share an exact key really describe the same product.
 
-    Keys connect transitively (A shares a GTIN with B, B shares brand + model with C: one
-    product). Returns ``(product_key, case_numbers)`` sorted by product key, where the
-    product key is the smallest exact key of the group (stable across runs).
+    A shared key alone is not enough: fireworks share certificate numbers, retailers use
+    product-group codes, and e-cigarettes list flavours as models. So the alerts must also
+    agree on three things:
+
+    1. Brand: equal, or one contains the other ("Playboy" / "Playboy VIP"). A missing brand
+       does not count against them.
+    2. Size or count: the largest number in the product name must be the same
+       ("110000 puffs" vs "120000 puffs", "3 pairs" vs "4 pairs" are different products).
+    3. Name: at least half of the name words of the shorter name appear in the other
+       ("Neutro deodorante profumato" / "Neutro": yes; "Colpo" / "Zanzara": no).
+       Words of the product type ("Fireworks", "Shower gel") do not count.
     """
-    parent: dict[str, str] = {}
+    if not _brands_agree(a.brand, b.brand):
+        return False
+    type_words = _words(_product_type(a.title_en)) | _words(_product_type(b.title_en))
+    name_a, name_b = _product_name(a.title_en), _product_name(b.title_en)
+    numbers_a, numbers_b = _numbers(name_a), _numbers(name_b)
+    if numbers_a and numbers_b and max(numbers_a) != max(numbers_b):
+        return False
+    words_a = _words(name_a) - type_words - _GENERIC_WORDS_IN_NAMES
+    words_b = _words(name_b) - type_words - _GENERIC_WORDS_IN_NAMES
+    if not words_a or not words_b:
+        return True  # nothing left to compare: brand and key decide
+    return len(words_a & words_b) / min(len(words_a), len(words_b)) >= MIN_NAME_OVERLAP
 
-    def find(node: str) -> str:
-        while parent.setdefault(node, node) != node:
-            parent[node] = parent[parent[node]]
-            node = parent[node]
-        return node
 
-    def union(a: str, b: str) -> None:
-        root_a, root_b = find(a), find(b)
-        if root_a != root_b:
-            parent[max(root_a, root_b)] = min(root_a, root_b)
+def product_links(alerts: Iterable[AlertRecord]) -> dict[str, set[str]]:
+    """For every alert, the alerts that share an exact key with it **and** are the same product.
 
-    keys_of: dict[str, list[str]] = {}
-    for alert in alerts:
-        keys = [f"gtin:{g}" for g in alert.gtins] + [f"bm:{k}" for k in alert.brand_models]
-        keys_of[alert.case_number] = keys
+    Keys that do not identify one product are skipped: a key shared by more than
+    :data:`MAX_ALERTS_PER_KEY` alerts (a certificate or range code), and the brand + model
+    keys of alerts with more than :data:`MAX_MODEL_KEYS` models (lists of flavours or sizes).
+    """
+    by_case = {alert.case_number: alert for alert in alerts}
+    holders: dict[str, list[str]] = {}
+    for alert in by_case.values():
+        keys = [f"gtin:{g}" for g in alert.gtins]
+        if len(alert.brand_models) <= MAX_MODEL_KEYS:
+            keys += [f"bm:{k}" for k in alert.brand_models]
         for key in keys:
-            union(f"case:{alert.case_number}", key)
+            holders.setdefault(key, []).append(alert.case_number)
 
-    members: dict[str, set[str]] = {}
-    for case_number, keys in keys_of.items():
-        if keys:
-            members.setdefault(find(f"case:{case_number}"), set()).add(case_number)
-    groups = []
-    for root, cases in members.items():
-        if len(cases) < 2:
+    links: dict[str, set[str]] = {}
+    for cases in holders.values():
+        if len(cases) < 2 or len(cases) > MAX_ALERTS_PER_KEY:
             continue
-        group_keys = sorted(k for c in cases for k in keys_of[c])
-        groups.append((group_keys[0] if group_keys else root, tuple(sorted(cases))))
+        for i, first in enumerate(cases):
+            for second in cases[i + 1 :]:
+                if first != second and same_product(by_case[first], by_case[second]):
+                    links.setdefault(first, set()).add(second)
+                    links.setdefault(second, set()).add(first)
+    return links
+
+
+def product_groups(
+    alerts: Iterable[AlertRecord],
+) -> list[tuple[str, tuple[str, ...]]]:
+    """Group alerts into products by their checked links; keep groups of two or more.
+
+    The group decides only the **split** (all alerts of one product in one split). Which
+    alerts a listing must find is narrower: only the alerts linked **directly** to the source
+    alert, never a chain A-B-C. Returns ``(product_key, case_numbers)`` sorted by product key;
+    the product key is the smallest case number of the group (stable across runs).
+    """
+    links = product_links(alerts)
+    groups: list[tuple[str, tuple[str, ...]]] = []
+    seen: set[str] = set()
+    for start in sorted(links):
+        if start in seen:
+            continue
+        group, todo = set(), [start]
+        while todo:
+            case = todo.pop()
+            if case not in group:
+                group.add(case)
+                todo.extend(links.get(case, ()))
+        seen |= group
+        members = tuple(sorted(group))
+        groups.append((f"case:{members[0]}", members))
     return sorted(groups)
 
 
@@ -151,6 +204,7 @@ def build_matching_cases(
     """
     alerts = [a for a in alerts if not is_excluded(a)]
     by_case = {alert.case_number: alert for alert in alerts}
+    links = product_links(alerts)
     groups = product_groups(alerts)
     if max_groups is not None:
         groups = sorted(groups, key=lambda g: _bucket(g[0], 1 << 30))[:max_groups]
@@ -159,7 +213,7 @@ def build_matching_cases(
     drafts: list[_Draft] = []
     for product_key, cases in groups:
         source = min((by_case[c] for c in cases), key=lambda a: _source_rank(a, product_key))
-        relevant = {c: 2 for c in cases if c != source.case_number}
+        relevant = {c: 2 for c in sorted(links[source.case_number])}  # direct links only
         others = [by_case[c] for c in relevant]
         shared_gtins = [g for g in source.gtins if any(g in o.gtins for o in others)]
         split = split_for(product_key)
@@ -206,6 +260,74 @@ def spot_check_sample(
                     sample.append(case)
                     break
     return sorted(sample, key=lambda c: c["case_id"])
+
+
+SPOT_CHECK_COLUMNS = (
+    "case_id",
+    "slice",
+    "expected",
+    "listing_title",
+    "listing_model",
+    "source",
+    "source_title",
+    "source_brand",
+    "source_model",
+    "relevant",
+    "relevant_title",
+    "relevant_brand",
+    "relevant_model",
+    "ok?",
+    "note",
+)
+
+
+def spot_check_rows(
+    sample: Sequence[dict[str, Any]],
+    alerts: Iterable[AlertRecord],
+    safe_listings: Iterable[SafeListing] = (),
+) -> list[dict[str, str]]:
+    """Rows for ``spot_check.csv``: the source product and the first relevant alert side by side.
+
+    The Product Owner reads each row from left to right and writes "yes" in ``ok?`` when the
+    source and the relevant alert are the same product (for "clear" rows: when the listing is
+    an ordinary product).
+    """
+    by_case = {a.case_number: a for a in alerts}
+    by_item = {s.item_id: s for s in safe_listings}
+    rows = []
+    for case in sample:
+        kind, _, source_id = case["source"].partition(":")
+        row = dict.fromkeys(SPOT_CHECK_COLUMNS, "")
+        row.update(
+            case_id=case["case_id"],
+            slice=case["slices"][0],
+            expected=case["expected"],
+            listing_title=case["query"].get("title") or "(photo only)",
+            listing_model=case["query"].get("model", ""),
+            source=case["source"],
+            relevant=" ".join(case["relevant"]),
+        )
+        if kind == SOURCE_ALERT and source_id in by_case:
+            src = by_case[source_id]
+            row.update(
+                source_title=src.title_en,
+                source_brand=src.brand or "",
+                source_model=src.model or "",
+            )
+        elif source_id in by_item:
+            row.update(
+                source_title=by_item[source_id].title, source_brand=by_item[source_id].brand or ""
+            )
+        first = next(iter(case["relevant"]), None)
+        if first in by_case:
+            rel = by_case[first]
+            row.update(
+                relevant_title=rel.title_en,
+                relevant_brand=rel.brand or "",
+                relevant_model=rel.model or "",
+            )
+        rows.append({k: html.unescape(v) for k, v in row.items()})
+    return rows
 
 
 def to_jsonl(cases: Iterable[dict[str, Any]]) -> str:
@@ -355,6 +477,32 @@ def _disguise_model(model: str, key: str) -> str:
 def _listing_gtin(gtin14: str) -> str:
     """Show a barcode as a seller would: EAN-13 when the 14-digit form starts with 0."""
     return gtin14[1:] if len(gtin14) == 14 and gtin14.startswith("0") else gtin14
+
+
+def _product_type(title: str) -> str:
+    """The part before " - " ("Shower gel - Fresia" gives "Shower gel"); "" if none."""
+    return title.split(" - ", 1)[0] if " - " in title else ""
+
+
+def _product_name(title: str) -> str:
+    """The part after " - " ("Shower gel - Fresia" gives "Fresia"); the whole title if none."""
+    return html.unescape(title.split(" - ", 1)[1] if " - " in title else title)
+
+
+def _words(text: str) -> set[str]:
+    return {w for w in re.findall(r"[^\W\d_]{3,}", text.lower())}
+
+
+def _numbers(text: str) -> set[int]:
+    return {int(n) for n in re.findall(r"\d+", text)}
+
+
+def _brands_agree(a: str | None, b: str | None) -> bool:
+    key_a = re.sub(r"[\W_]+", "", html.unescape(a or "").lower())
+    key_b = re.sub(r"[\W_]+", "", html.unescape(b or "").lower())
+    if len(key_a) < 3 or len(key_b) < 3:
+        return True  # unknown brand: let the other checks decide
+    return key_a in key_b or key_b in key_a
 
 
 def _source_rank(alert: AlertRecord, product_key: str) -> tuple[bool, bool, bool, int]:
