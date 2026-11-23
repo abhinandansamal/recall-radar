@@ -23,6 +23,7 @@ validated against :class:`rr_eval.schemas.MatchingCase` in the repository and in
 """
 
 import hashlib
+import html
 import json
 import re
 from collections.abc import Iterable, Sequence
@@ -303,6 +304,7 @@ def _query(title: str, description: str, language: str) -> dict[str, Any]:
 
 
 def _clip(text: str, limit: int) -> str:
+    text = html.unescape(text)  # alert texts contain "&amp;"; a seller writes "&"
     text = re.sub(r"\s+", " ", _PLACEHOLDER_PART.sub("", text)).strip()
     if len(text) > limit:
         text = text[:limit].rsplit(" ", 1)[0]
@@ -320,6 +322,7 @@ def _clip_list(text: str, limit: int) -> str:
 
 def _strip_names(text: str, alert: AlertRecord) -> str:
     """Remove brand, model and barcodes from a text, so only the description can match."""
+    text = html.unescape(text)
     for name in (alert.brand, alert.model):
         if name and len(name.strip()) >= 2:
             text = re.sub(re.escape(name.strip()), " ", text, flags=re.IGNORECASE)
