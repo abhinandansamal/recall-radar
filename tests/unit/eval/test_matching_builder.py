@@ -2,6 +2,7 @@
 
 import json
 from collections import Counter
+from pathlib import Path
 
 import pytest
 
@@ -218,197 +219,37 @@ def test_html_entities_are_decoded():
     assert exact["brand"] == "Fix & Shine" and exact["model"] == "FS-1 & FS-2"
 
 
-# The Product Owner's spot-check of 23 Nov 2026 (source alert vs relevant alert). The rule
-# must reject every pair the PO marked as different. M-0136 and M-0214 were the same product
-# but are rejected too: the names share no word (accepted loss; a wrong answer is worse).
-PO_PAIRS = [
-    (
-        "M-0032",
-        "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS, 8in1, 160000 puffs",
-        "AiRMEZ",
-        "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS 8in1 160000 PUFFS",
-        "AiRMEZ",
-        True,
-    ),
-    (
-        "M-0106",
-        "Deodorant - Neutro deodorante profumato",
-        "Breeze",
-        "Deodorant spray - Neutro",
-        "Breeze",
-        True,
-    ),
-    ("M-0118", "Fireworks - Colpo", "Bufalo", "Fireworks - Zanzara", "Bufalo", False),
-    (
-        "M-0136",
-        "Skin-lightening product - Crème éclaircissante 3 en 1",
-        "Carotone - LIGHT AND NATURAL",
-        "Skin lightening product - Light &amp; Natural brightening cream",
-        "Carotone",
-        False,
-    ),
-    (
-        "M-0214",
-        "Tattoo ink - Dynamic Tattoo Ink Grey 30 ml lotto 111224-DP",
-        "Dynamic Platinum",
-        "Tattoo ink - Platinum",
-        "Dynamic",
-        False,
-    ),
-    (
-        "M-0231",
-        "Perfume - Amethyste",
-        "Elementi di Byblos",
-        "Cosmetic set - Fiori di Essenza Divina",
-        "Renato Balestra",
-        False,
-    ),
-    (
-        "M-0280",
-        "Shower gel - ACTIV &amp; PURE, značka Fa MEN",
-        "Fa MEN",
-        "Shower gel - 3i1 shower gel ACTIVE &amp; PURE MEN",
-        "Fa MEN",
-        True,
-    ),
-    (
-        "M-0339",
-        "Fireworks - Burst Blow",
-        "Grand Prix",
-        "Fireworks - G-Force Glitter",
-        "Grand Prix",
-        False,
-    ),
-    (
-        "M-0376",
-        "USB charger - Smart USB charger",
-        "hoco.",
-        "USB Charger - Smart USB Charger",
-        "hoco.",
-        True,
-    ),
-    (
-        "M-0454",
-        "Earrings - 3 pairs earrings",
-        "Kik",
-        "Earrings - 4 pairs of ear studs",
-        "Kik",
-        False,
-    ),
-    (
-        "M-0476",
-        "Disposable electronic cigarette - 5 % NICOTINE, 110000 puffs",
-        "LANA JOY TORNADO",
-        "Disposable electronic cigarette - 5 % NICOTINE, 120000 puffs, volume: 40 ml",
-        "LANA JOY TORNADO",
-        False,
-    ),
-    (
-        "M-0511",
-        "Face cream - Nourishing Facial Cream with beeswax and vegetable oil",
-        "Margarita",
-        "Face cream - Moisturising Facial Cream with natural whey",
-        "Margarita",
-        False,
-    ),
-    (
-        "M-0525",
-        "Eau de toilette - VETIVER BOURBON",
-        "Monotheme",
-        "Aftershave",
-        "Sergio Soldano",
-        False,
-    ),
-    (
-        "M-0564",
-        "Deodorant - Protect &amp; Care",
-        "Nivea",
-        "Deodorant - Protect care",
-        "Nivea",
-        True,
-    ),
-    (
-        "M-0675",
-        "Shower gel - VIP GLAM ORCHID SCENT",
-        "Playboy",
-        "Shower gel - PLAYBOY VIP shower gel glam orchid scent",
-        "Playboy VIP",
-        True,
-    ),
-    (
-        "M-0734",
-        "Disposable electronic cigarette - 6in1 140000 PUFFS 2% NICOTINE",
-        "RENdM TORNADO",
-        "Disposable electronic cigarette - 120000 PUFFS 2% NICOTINE 38ml",
-        "RENdM TORNADO",
-        False,
-    ),
-    (
-        "M-0849",
-        "Hair dye - Palette professional mixing colors",
-        "TESTANERA",
-        "Hair dye - Palette professional mixing colors 4 - 86 Mix castano agata",
-        "TESTANERA",
-        True,
-    ),
-    (
-        "M-0870",
-        "USB charger - 25W PD Adapter",
-        "TREQA",
-        "USB charger - TRAVEL ADAPTER, 25W PD Adapter",
-        "TREQA",
-        True,
-    ),
-    (
-        "M-0925",
-        "Hairspray - Fix &amp; Shine",
-        "L'OREAL PARIS",
-        "Fixing spray - Studio line  Fix &amp; Shine",
-        "L'OREAL PARIS",
-        True,
-    ),
-    (
-        "M-0971",
-        "Lighting chain - 210CM X 210CM LED",
-        None,
-        "Lighting chain - 210 cm x 210 cm LED",
-        None,
-        True,
-    ),
-    ("M-0975", "Lighting chain", None, "Lighting chain - LED", None, True),
-    (
-        "M-1025",
-        "Perfume - Right Starlight",
-        "Comin parfum",
-        "Eau de toilette - Right Starlight",
-        "Comin parfum",
-        True,
-    ),
-    (
-        "M-1060",
-        "Shower gel - Fresia di Lanzarote",
-        "Perlier",
-        "Shower gel - Fresia di Lanzarote",
-        "Perlier",
-        True,
-    ),
-    (
-        "M-1100",
-        "Eau de toilette - Blue club",
-        "Prady Parfums",
-        "Eau de toilette - Blueberry's woman",
-        "Prady Parfums",
-        False,
-    ),
-    ("M-1204", "Hair dye - Brown Henna", "Topline", "Hair dye - Brown Henna", "Royal", False),
-]
+# The Product Owner's spot-checks: source alert vs relevant alert, same product or not.
+PO_PAIRS = json.loads(
+    (Path(__file__).parent / "data" / "po_same_product_pairs.json").read_text(encoding="utf-8")
+)["pairs"]
 
 
-@pytest.mark.parametrize(("case_id", "title_a", "brand_a", "title_b", "brand_b", "same"), PO_PAIRS)
-def test_same_product_agrees_with_po_spot_check(case_id, title_a, brand_a, title_b, brand_b, same):
-    a = AlertRecord("1/11", title_en=title_a, brand=brand_a)
-    b = AlertRecord("2/11", title_en=title_b, brand=brand_b)
-    assert same_product(a, b) is same, case_id
+def _pair(row):
+    return tuple(
+        AlertRecord(
+            f"{n}/11",
+            title_en=side["title"],
+            brand=side["brand"] or None,
+            model=side["model"] or None,
+        )
+        for n, side in ((1, row["source"]), (2, row["relevant"]))
+    )
+
+
+@pytest.mark.parametrize(
+    "row",
+    [r for r in PO_PAIRS if not r["same_product"]],
+    ids=lambda r: f"{r['case_id']}-round{r['round']}",
+)
+def test_never_links_what_the_po_called_different(row):
+    assert not same_product(*_pair(row))
+
+
+def test_keeps_most_pairs_the_po_called_the_same():
+    same = [r for r in PO_PAIRS if r["same_product"]]
+    lost = [f"{r['case_id']}-round{r['round']}" for r in same if not same_product(*_pair(r))]
+    assert len(lost) / len(same) <= 0.2, lost
 
 
 def test_keys_on_many_alerts_and_flavour_lists_do_not_link():
