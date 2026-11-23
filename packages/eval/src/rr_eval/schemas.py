@@ -24,7 +24,10 @@ MatchingSlice = Literal[
     "similar_product",  # same brand or kind, different product (expected "similar")
 ]
 
-AlertId = Annotated[str, StringConstraints(pattern=r"^[A-Z0-9]{1,5}/\d{5}/\d{2}$")]
+# Same formats as rr_transform.sg_fields.CASE_NUMBER (bronze profile, Q3).
+AlertId = Annotated[
+    str, StringConstraints(pattern=r"^((A\d{2}|SR|INFO|OR|EM)/\d{4,5}/\d{2}|\d{3,4}/\d{2})$")
+]
 Sha256 = Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{64}$")]
 Citation = Annotated[str, StringConstraints(pattern=r"^Art\. \d{1,3}(\(\d{1,2}\))?$")]
 

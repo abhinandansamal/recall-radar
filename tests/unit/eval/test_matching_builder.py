@@ -7,9 +7,11 @@ from rr_eval.matching_builder import (
     AlertRecord,
     SafeListing,
     build_matching_cases,
+    is_excluded,
     product_groups,
     split_files,
     split_for,
+    spot_check_sample,
 )
 from rr_eval.schemas import MatchingCase
 
@@ -136,3 +138,51 @@ def test_files_separate_holdout():
     assert len(main_rows) + len(holdout_rows) == len(cases)
     assert all(r["split"] != "holdout" for r in main_rows)
     assert all(r["split"] == "holdout" for r in holdout_rows)
+
+
+def test_long_model_lists_are_cut_at_a_separator():
+    models = ", ".join(f"VD{i:04d}" for i in range(30))  # 178 characters
+    long = [alert(c, model=models, brand_models=("sunny|vd0000",)) for c in ("0001/11", "0002/11")]
+    exact = build_matching_cases(long, [])[0]
+    assert exact["slices"][0] == "exact_key"
+    assert len(exact["query"]["model"]) <= 100
+    assert exact["query"]["model"].split(", ")[-1] == "VD0011"
+    MatchingCase.model_validate(exact)
+
+
+def test_motor_vehicles_are_left_out():
+    cars = [
+        alert(f"A12/0{i}00/18", category_en="Motor vehicles", brand_models=("fuso|canter",))
+        for i in (1, 2)
+    ]
+    assert is_excluded(cars[0])
+    assert build_matching_cases(cars, []) == []
+
+
+def test_placeholders_and_dangling_dashes_are_removed():
+    odd = [
+        alert(
+            c,
+            title_en="Girls' bikini - Unknown",
+            model="BK-77",
+            brand_models=("sunny|bk77",),
+        )
+        for c in ("0001/10", "0002/10")
+    ]
+    titles = {c["slices"][0]: c["query"]["title"] for c in build_matching_cases(odd, [])}
+    assert titles["exact_key"] == "Girls' bikini"
+    assert all(not t.endswith(("-", " ")) and "Unknown" not in t for t in titles.values())
+
+
+def test_spot_check_sample_covers_slices_once_per_product():
+    many = [
+        alert(f"SR/{i:05d}/26", brand_models=(f"b|m{i // 2:03d}",), image_sha256=(SHA,))
+        for i in range(40)
+    ]
+    safe = [SafeListing(f"B0{i:04d}", f"Safe thing {i}", "en", "Toys") for i in range(10)]
+    cases = build_matching_cases(many, safe)
+    sample = spot_check_sample(cases)
+    assert len(sample) == 30
+    assert len({c["source"] for c in sample}) == 30
+    assert {c["slices"][0] for c in sample} >= {"exact_key", "evasion", "look_alike"}
+    assert sample == spot_check_sample(list(reversed(cases)))

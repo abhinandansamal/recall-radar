@@ -48,6 +48,13 @@ def test_invalid_matching_cases_are_rejected(overrides, message):
         matching(**overrides)
 
 
+@pytest.mark.parametrize(
+    "case_number", ["A12/1721/12", "A11/00001/20", "1101/10", "INFO/00001/19", "OR/00096/25"]
+)
+def test_all_safety_gate_case_number_formats_are_accepted(case_number):
+    assert matching(relevant={case_number: 2}).relevant == {case_number: 2}
+
+
 def test_listing_needs_title_or_photo_and_valid_gtin():
     with pytest.raises(ValidationError, match="title or at least one photo"):
         matching(query={"title": "", "language": "de"})
