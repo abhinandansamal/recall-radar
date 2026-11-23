@@ -278,7 +278,7 @@ def _variant(
 def _look_alike(listing: SafeListing) -> dict[str, Any]:
     query = _query(listing.title, "", listing.language)
     if listing.brand:
-        query["brand"] = listing.brand[:100]
+        query["brand"] = _clip_list(listing.brand, 100)
     if listing.category:
         query["category"] = listing.category[:200]
     return {
@@ -313,7 +313,7 @@ def _clip(text: str, limit: int) -> str:
 
 def _clip_list(text: str, limit: int) -> str:
     """Shorten a list like ``"A1, A2, A3"`` at a separator, so no model number is cut in half."""
-    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\s+", " ", html.unescape(text)).strip()
     if len(text) <= limit:
         return text
     cut = max(text.rfind(sep, 0, limit) for sep in (",", ";"))
