@@ -1,0 +1,755 @@
+{
+  "_about": "Product Owner spot-checks of the matching gold set, 23 Nov 2026 (round 1 and 2). same_product = are the source alert and the relevant alert the same product? M-1060 (round 2) re-checked: both alerts are Palette Intensive Color Creme, New Fashion Collection, 6-79.",
+  "pairs": [
+    {
+      "case_id": "M-0106",
+      "round": 2,
+      "source": {
+        "title": "USB charger - CHARGER Single Port Smart Charger set",
+        "brand": "KAKUSIGA",
+        "model": "KSC-757 , KSC-781"
+      },
+      "relevant": {
+        "title": "USB charger - CHARGER Single Port Smart Charger set",
+        "brand": "KAKUSIGA",
+        "model": "KSC-757"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0118",
+      "round": 2,
+      "source": {
+        "title": "Eau de toilette - Right Starlight",
+        "brand": "Comin parfum",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Perfume - Right Starlight",
+        "brand": "Comin parfum",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0136",
+      "round": 2,
+      "source": {
+        "title": "Skin lightening lotion - Carotte Lightening Body Lotion",
+        "brand": "Pr. Francoise Bedon Paris",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Skin-lightening milk - Lait éclaircissant Soin Hydratant Nourrissant CAROTTE",
+        "brand": "Pr. Francoise Bedon Paris",
+        "model": "500 ml"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0182",
+      "round": 2,
+      "source": {
+        "title": "Training Bar - Multi Training Bar",
+        "brand": "Kettler",
+        "model": "07361-600"
+      },
+      "relevant": {
+        "title": "Multi Training Bar - KETTLER Multi Training Bar",
+        "brand": "Kettler",
+        "model": "07361-600"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0231",
+      "round": 2,
+      "source": {
+        "title": "Deodorant spray - Comfort plus",
+        "brand": "Nivea",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Deodorant - anti-perspirant - dry Confidence plus",
+        "brand": "Nivea",
+        "model": ""
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0280",
+      "round": 2,
+      "source": {
+        "title": "Toy sword with battery - SWORD WITH LIGHT AND SOUND",
+        "brand": "Flying Tiger Copenhagen",
+        "model": "3050473"
+      },
+      "relevant": {
+        "title": "Toy sword with battery - SWORD WITH LIGHT AND SOUND",
+        "brand": "Flying Tiger Copenhagen",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0339",
+      "round": 2,
+      "source": {
+        "title": "Shower cream - HAMMAM",
+        "brand": "Tesori d'Oriente",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Shower cream - SHOWER CREAM OIL HAMMAM OLIO DI ARGAN",
+        "brand": "Tesori d´Oriente",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0356",
+      "round": 2,
+      "source": {
+        "title": "Shower gel - PLAYBOY VIP shower gel glam orchid scent",
+        "brand": "Playboy VIP",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Shower gel - VIP GLAM ORCHID SCENT",
+        "brand": "Playboy",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0376",
+      "round": 2,
+      "source": {
+        "title": "Skin cream - Nivea men skin energy",
+        "brand": "Nivea",
+        "model": "Gel ultra fresh risveglio express"
+      },
+      "relevant": {
+        "title": "Cream gel - SKIN ENERGY",
+        "brand": "Nivea",
+        "model": "Gel ultra fresh risveglio express"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0454",
+      "round": 2,
+      "source": {
+        "title": "Shampoo - VITALCARE SHAMPOO rivitalizzante e fortificante",
+        "brand": "Vitalcare",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Shampoo - Vitalcare shampoo",
+        "brand": "Vitalcare",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0525",
+      "round": 2,
+      "source": {
+        "title": "Bath cream - Bagno crema aromatico",
+        "brand": "Tesori d'Oriente",
+        "model": "Jasmin di Giava"
+      },
+      "relevant": {
+        "title": "Shower cream - Crema Doccia",
+        "brand": "Tesori d'Oriente",
+        "model": "Jasmin di Giava"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0564",
+      "round": 2,
+      "source": {
+        "title": "Deodorant - Uomo Aqua",
+        "brand": "Malizia",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Deodorant spray - Aqua",
+        "brand": "Malizia",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0675",
+      "round": 2,
+      "source": {
+        "title": "Eau de toilette - Flò man & woman",
+        "brand": "Comin parfum",
+        "model": "Eau de toilette pour homme e femme"
+      },
+      "relevant": {
+        "title": "Eau de toilette - Flò",
+        "brand": "COMIN",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0734",
+      "round": 2,
+      "source": {
+        "title": "Aftershave - Apollo",
+        "brand": "Axe",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Aftershave - Dopobarba Apollo",
+        "brand": "Axe",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0745",
+      "round": 2,
+      "source": {
+        "title": "Cosmetics set - Tierra del fuego",
+        "brand": "REAL TIME",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Eau de toilette set - Tierra del fuego",
+        "brand": "Realtime",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0825",
+      "round": 2,
+      "source": {
+        "title": "Eau de toilette - Flò",
+        "brand": "Comin parfum",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Eau de toilette - Flò",
+        "brand": "COMIN",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0849",
+      "round": 2,
+      "source": {
+        "title": "Perfume - Halieno",
+        "brand": "Orchidea Profumi",
+        "model": "011"
+      },
+      "relevant": {
+        "title": "Perfume - Halieno",
+        "brand": "Orchidea Profumi",
+        "model": "011"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0925",
+      "round": 2,
+      "source": {
+        "title": "Eau de cologne - Masha and the Bear",
+        "brand": "AIR -VAL",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Eau de Cologne - Masha and the bear",
+        "brand": "Air Val",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0971",
+      "round": 2,
+      "source": {
+        "title": "Girls' top - Unknown",
+        "brand": "Hannah Montana (THE PRODUCT MAY BE COUNTERFEIT)",
+        "model": "Item No 843"
+      },
+      "relevant": {
+        "title": "Girls' top - Unknown",
+        "brand": "Hannah Montana (THE PRODUCT MAY BE COUNTERFEIT)",
+        "model": "Item No 843"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0975",
+      "round": 2,
+      "source": {
+        "title": "Multiplug socket",
+        "brand": "BAYSAL",
+        "model": "Code: 10001205"
+      },
+      "relevant": {
+        "title": "Multiplug socket",
+        "brand": "BAYSAL",
+        "model": "Code: 10001205"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0996",
+      "round": 2,
+      "source": {
+        "title": "USB charger - 25W PD Adapter",
+        "brand": "TREQA",
+        "model": "CH-9038, CH-9039"
+      },
+      "relevant": {
+        "title": "USB charger - TRAVEL ADAPTER, 25W PD Adapter",
+        "brand": "TREQA",
+        "model": "CH_9038"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-1060",
+      "round": 2,
+      "source": {
+        "title": "Hair dye - INTENSIVE COLOR CREME LONG-LASTING INTENSITY, PERMANENT, 3x CARE, 6-79",
+        "brand": "Schwarzkopf Palette",
+        "model": "LONG-LASTING INTENSITY, PERMANENT, 6-79, 3x CARE"
+      },
+      "relevant": {
+        "title": "Hair dye - NEW FASHION COLLECTION, LONG-LASTING INTENSITY, PERMANENT, 6-79, 3x CARE",
+        "brand": "Schwarzkopf Palette",
+        "model": "purple copper"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-1101",
+      "round": 2,
+      "source": {
+        "title": "Eau de toilette - Est éterne Diamante de Naturmais",
+        "brand": "Diamante",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Eau de toilette - de naturmais",
+        "brand": "Diamant",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-1182",
+      "round": 2,
+      "source": {
+        "title": "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS, 8in1, 160000 puffs",
+        "brand": "AiRMEZ",
+        "model": "BINGO CRUSH, TRIPLE MANGO, MIXED BERRIES, WATERMELON ICE, PEACH ICE, MIXED BERRIES, MELON PASSION FRUIT,  TRIPLE MANGO, WATERMELON ICE, LOVE 66, DOUBLE APPLE, MANGO PEACH"
+      },
+      "relevant": {
+        "title": "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS 8in1 160000 PUFFS",
+        "brand": "AiRMEZ",
+        "model": "MIXED BERRIES, BLUEBERRY RASPBERRY, WATERMELON ICE, COLA ICE, PEACH ICE, MIXED BERRIES, MELON PASSION FRUIT, TRIPLE MANGO"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-1187",
+      "round": 2,
+      "source": {
+        "title": "Electric bicycle - E-bike",
+        "brand": "Allegro",
+        "model": "A1, KEYU / KYLC165V55"
+      },
+      "relevant": {
+        "title": "Electric bicycle",
+        "brand": "Allegro",
+        "model": "A3, A6, A7R, FY006A, KEYU/KYLC165V55, M7"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0032",
+      "round": 1,
+      "source": {
+        "title": "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS, 8in1, 160000 puffs",
+        "brand": "AiRMEZ",
+        "model": "BINGO CRUSH, TRIPLE MANGO, MIXED BERRIES, WATERMELON ICE, PEACH ICE, MIXED BERRIES, MELON PASSION FRUIT,  TRIPLE MANGO, WATERMELON ICE, LOVE 66, DOUBLE APPLE, MANGO PEACH"
+      },
+      "relevant": {
+        "title": "Disposable electronic cigarette - 8 ADJUSTABLE FLAVORS 8in1 160000 PUFFS",
+        "brand": "AiRMEZ",
+        "model": "MIXED BERRIES, BLUEBERRY RASPBERRY, WATERMELON ICE, COLA ICE, PEACH ICE, MIXED BERRIES, MELON PASSION FRUIT, TRIPLE MANGO"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0106",
+      "round": 1,
+      "source": {
+        "title": "Deodorant - Neutro deodorante profumato",
+        "brand": "Breeze",
+        "model": "137330"
+      },
+      "relevant": {
+        "title": "Deodorant spray - Neutro",
+        "brand": "Breeze",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0118",
+      "round": 1,
+      "source": {
+        "title": "Fireworks - Colpo",
+        "brand": "Bufalo",
+        "model": "0163-P1-5178, 5102"
+      },
+      "relevant": {
+        "title": "Fireworks - Zanzara",
+        "brand": "Bufalo",
+        "model": "0163-P1-5178, 5100"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0136",
+      "round": 1,
+      "source": {
+        "title": "Skin-lightening product - Crème éclaircissante 3 en 1",
+        "brand": "Carotone - LIGHT AND NATURAL",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Skin lightening product - Light &amp; Natural brightening cream",
+        "brand": "Carotone",
+        "model": "6182000100493"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0214",
+      "round": 1,
+      "source": {
+        "title": "Tattoo ink - Dynamic Tattoo Ink Grey 30 ml lotto 111224-DP",
+        "brand": "Dynamic Platinum",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Tattoo ink - Platinum",
+        "brand": "Dynamic",
+        "model": "Grey"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0231",
+      "round": 1,
+      "source": {
+        "title": "Perfume - Amethyste",
+        "brand": "Elementi di Byblos",
+        "model": "92001973"
+      },
+      "relevant": {
+        "title": "Cosmetic set - Fiori di Essenza Divina",
+        "brand": "Renato Balestra",
+        "model": "92001973, GA09048"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0280",
+      "round": 1,
+      "source": {
+        "title": "Shower gel - ACTIV &amp; PURE, značka Fa MEN",
+        "brand": "Fa MEN",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Shower gel - 3i1 shower gel ACTIVE &amp; PURE MEN",
+        "brand": "Fa MEN",
+        "model": "ACTIVE &amp; PURE MEN"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0339",
+      "round": 1,
+      "source": {
+        "title": "Fireworks - Burst Blow",
+        "brand": "Grand Prix",
+        "model": "LE761"
+      },
+      "relevant": {
+        "title": "Fireworks - G-Force Glitter",
+        "brand": "Grand Prix",
+        "model": "LE761"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0376",
+      "round": 1,
+      "source": {
+        "title": "USB charger - Smart USB charger",
+        "brand": "hoco.",
+        "model": "C11"
+      },
+      "relevant": {
+        "title": "USB Charger - Smart USB Charger",
+        "brand": "hoco.",
+        "model": "C11"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0454",
+      "round": 1,
+      "source": {
+        "title": "Earrings - 3 pairs earrings",
+        "brand": "Kik",
+        "model": "Season: 114, WGR: 621, Order No: 2643200, Batch No.: 72732011 Colour: silver,"
+      },
+      "relevant": {
+        "title": "Earrings - 4 pairs of ear studs",
+        "brand": "Kik",
+        "model": "Saison:214; WGR621; Color: gold"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0476",
+      "round": 1,
+      "source": {
+        "title": "Disposable electronic cigarette - 5 % NICOTINE, 110000 puffs",
+        "brand": "LANA JOY TORNADO",
+        "model": "BLACK DRAGON ICE, PASSION KIWI GUAVA, WATERMELON BUBBLEGUM"
+      },
+      "relevant": {
+        "title": "Disposable electronic cigarette - 5 % NICOTINE, 120000 puffs, volume: 40 ml",
+        "brand": "LANA JOY TORNADO",
+        "model": "BLACK DRAGON ICE, BLUEBERRY SOUR RASPBERRY, CHERRY CRANBERRY, GRAPE ICE, MIXED BERRIES, PASSION KIWI GUAVA, RASPBERRY WATERMELON"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0511",
+      "round": 1,
+      "source": {
+        "title": "Face cream - Nourishing Facial Cream with beeswax and vegetable oil",
+        "brand": "Margarita",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Face cream - Moisturising Facial Cream with natural whey",
+        "brand": "Margarita",
+        "model": ""
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0525",
+      "round": 1,
+      "source": {
+        "title": "Eau de toilette - VETIVER BOURBON",
+        "brand": "Monotheme",
+        "model": "Venezia"
+      },
+      "relevant": {
+        "title": "Aftershave",
+        "brand": "Sergio Soldano",
+        "model": "540"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0564",
+      "round": 1,
+      "source": {
+        "title": "Deodorant - Protect &amp; Care",
+        "brand": "Nivea",
+        "model": "48H"
+      },
+      "relevant": {
+        "title": "Deodorant - Protect care",
+        "brand": "Nivea",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0675",
+      "round": 1,
+      "source": {
+        "title": "Shower gel - VIP GLAM ORCHID SCENT",
+        "brand": "Playboy",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Shower gel - PLAYBOY VIP shower gel glam orchid scent",
+        "brand": "Playboy VIP",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0734",
+      "round": 1,
+      "source": {
+        "title": "Disposable electronic cigarette - 6in1 140000 PUFFS 2% NICOTINE",
+        "brand": "RENdM TORNADO",
+        "model": "CHERRY, COLA ICE, MANGO ICE, LOVE 66, STRAWBERRY KIWI, PEACH MANGO, MIXED BERRIES, BLUE RAZZ LEMONADE, CHERRY BERRY, STRAWBERRY BANANA, VIMTO, BLUEBERRY CHERRY CRANBERRY"
+      },
+      "relevant": {
+        "title": "Disposable electronic cigarette - 120000 PUFFS 2% NICOTINE 38ml",
+        "brand": "RENdM TORNADO",
+        "model": "BLUEBERRY RASPBERRY, PEAR APPLE RASPBERRY, WATERMELON ICE"
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-0849",
+      "round": 1,
+      "source": {
+        "title": "Hair dye - Palette professional mixing colors",
+        "brand": "TESTANERA",
+        "model": "8-15 Mix biondo cristallo"
+      },
+      "relevant": {
+        "title": "Hair dye - Palette professional mixing colors 4 - 86 Mix castano agata",
+        "brand": "TESTANERA",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0870",
+      "round": 1,
+      "source": {
+        "title": "USB charger - 25W PD Adapter",
+        "brand": "TREQA",
+        "model": "CH-9038, CH-9039"
+      },
+      "relevant": {
+        "title": "USB charger - TRAVEL ADAPTER, 25W PD Adapter",
+        "brand": "TREQA",
+        "model": "CH_9038"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0925",
+      "round": 1,
+      "source": {
+        "title": "Hairspray - Fix &amp; Shine",
+        "brand": "L'OREAL PARIS",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Fixing spray - Studio line  Fix &amp; Shine",
+        "brand": "L'OREAL PARIS",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0971",
+      "round": 1,
+      "source": {
+        "title": "Lighting chain - 210CM X 210CM LED",
+        "brand": "",
+        "model": "M210/M210"
+      },
+      "relevant": {
+        "title": "Lighting chain - 210 cm x 210 cm LED",
+        "brand": "",
+        "model": "M210/M210"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-0975",
+      "round": 1,
+      "source": {
+        "title": "Lighting chain",
+        "brand": "",
+        "model": "STARLED01"
+      },
+      "relevant": {
+        "title": "Lighting chain - LED",
+        "brand": "",
+        "model": "STARLED01"
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-1025",
+      "round": 1,
+      "source": {
+        "title": "Perfume - Right Starlight",
+        "brand": "Comin parfum",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Eau de toilette - Right Starlight",
+        "brand": "Comin parfum",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-1060",
+      "round": 1,
+      "source": {
+        "title": "Shower gel - Fresia di Lanzarote",
+        "brand": "Perlier",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Shower gel - Fresia di Lanzarote",
+        "brand": "Perlier",
+        "model": ""
+      },
+      "same_product": true
+    },
+    {
+      "case_id": "M-1100",
+      "round": 1,
+      "source": {
+        "title": "Eau de toilette - Blue club",
+        "brand": "Prady Parfums",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Eau de toilette - Blueberry's woman",
+        "brand": "Prady Parfums",
+        "model": ""
+      },
+      "same_product": false
+    },
+    {
+      "case_id": "M-1204",
+      "round": 1,
+      "source": {
+        "title": "Hair dye - Brown Henna",
+        "brand": "Topline",
+        "model": ""
+      },
+      "relevant": {
+        "title": "Hair dye - Brown Henna",
+        "brand": "Royal",
+        "model": ""
+      },
+      "same_product": false
+    }
+  ]
+}

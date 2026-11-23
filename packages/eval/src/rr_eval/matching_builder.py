@@ -44,7 +44,15 @@ MIN_NAME_OVERLAP = 0.5
 _GENERIC_WORDS_IN_NAMES = frozenset(
     {"and", "the", "for", "with", "und", "mit", "für", "der", "die", "das", "new"}
     | {"pair", "pairs", "pack", "set", "piece", "pieces", "pcs"}
+    # marketing and target words: "Comfort plus" and "Confidence plus" share only "plus"
+    | {"plus", "max", "pro", "extra", "ultra", "super", "classic", "original"}
+    | {"men", "man", "women", "woman", "uomo", "donna", "homme", "femme", "herren", "damen"}
 )
+# Words that name the same kind of product in different ways.
+_TYPE_SYNONYMS = {
+    word: "fragrance"
+    for word in ("perfume", "parfum", "parfüm", "profumo", "eau", "toilette", "cologne")
+}
 _GENERIC_WORDS = ("New", "Premium", "2026", "Top quality", "Bestseller")
 _PLACEHOLDER_PART = re.compile(
     r"\s*[-\u2013]\s*(unknown|unbekannt|not known|n/?a)\s*(?=[-\u2013,]|$)", flags=re.IGNORECASE
@@ -98,13 +106,23 @@ def same_product(a: AlertRecord, b: AlertRecord) -> bool:
 
     1. Brand: equal, or one contains the other ("Playboy" / "Playboy VIP"). A missing brand
        does not count against them.
-    2. Size or count: the largest number in the product name must be the same
+    2. Product type: the words of one type must all be in the other ("Deodorant" /
+       "Deodorant spray": yes; "Bath cream" / "Shower cream", "lotion" / "milk": no).
+       Perfume, eau de toilette and eau de cologne count as one type.
+    3. Main model: when both alerts give a model code with a digit, the first codes must be
+       equal ("A1" / "A3": different e-bikes, even if they share a motor code).
+    4. Size or count: the largest number in the product name must be the same
        ("110000 puffs" vs "120000 puffs", "3 pairs" vs "4 pairs" are different products).
-    3. Name: at least half of the name words of the shorter name appear in the other
+    5. Name: at least half of the name words of the shorter name appear in the other
        ("Neutro deodorante profumato" / "Neutro": yes; "Colpo" / "Zanzara": no).
        Words of the product type ("Fireworks", "Shower gel") do not count.
     """
     if not _brands_agree(a.brand, b.brand):
+        return False
+    if not _types_agree(_product_type(a.title_en), _product_type(b.title_en)):
+        return False
+    model_a, model_b = _main_model(a.model), _main_model(b.model)
+    if model_a and model_b and model_a != model_b:
         return False
     type_words = _words(_product_type(a.title_en)) | _words(_product_type(b.title_en))
     name_a, name_b = _product_name(a.title_en), _product_name(b.title_en)
@@ -495,6 +513,21 @@ def _words(text: str) -> set[str]:
 
 def _numbers(text: str) -> set[int]:
     return {int(n) for n in re.findall(r"\d+", text)}
+
+
+def _types_agree(type_a: str, type_b: str) -> bool:
+    words_a = {_TYPE_SYNONYMS.get(w, w) for w in _words(type_a)} - _GENERIC_WORDS_IN_NAMES
+    words_b = {_TYPE_SYNONYMS.get(w, w) for w in _words(type_b)} - _GENERIC_WORDS_IN_NAMES
+    if not words_a or not words_b:
+        return True  # one title has no type part
+    return words_a <= words_b or words_b <= words_a
+
+
+def _main_model(model: str | None) -> str | None:
+    """First model code, normalised, if it contains a digit ("A1, KEYU" gives "a1")."""
+    first = re.split(r"[,;\n]", html.unescape(model or ""), maxsplit=1)[0]
+    key = re.sub(r"[\W_]+", "", first.lower())
+    return key if re.search(r"\d", key) else None
 
 
 def _brands_agree(a: str | None, b: str | None) -> bool:
