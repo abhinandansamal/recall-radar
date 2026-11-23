@@ -190,10 +190,18 @@ def test_spot_check_sample_covers_slices_once_per_product():
 
 def test_html_entities_are_decoded():
     pair = [
-        alert(c, title_en="Hairspray - Fix &amp; Shine", title_de="Haarspray - Fix &amp; Shine")
+        alert(
+            c,
+            title_en="Hairspray - Fix &amp; Shine",
+            title_de="Haarspray - Fix &amp; Shine",
+            brand="Fix &amp; Shine",
+            model="FS-1 &amp; FS-2",
+        )
         for c in ("SR/00001/25", "SR/00002/25")
     ]
     pair = [AlertRecord(**{**a.__dict__, "brand_models": ("sunny|sc100",)}) for a in pair]
     titles = [c["query"].get("title", "") for c in build_matching_cases(pair, [])]
     assert titles and all("&amp" not in t for t in titles)
     assert "Hairspray - Fix & Shine" in titles
+    exact = build_matching_cases(pair, [])[0]["query"]
+    assert exact["brand"] == "Fix & Shine" and exact["model"] == "FS-1 & FS-2"

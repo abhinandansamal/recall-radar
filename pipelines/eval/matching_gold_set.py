@@ -21,6 +21,7 @@
 
 import csv
 import io
+import json
 import re
 import sys
 from collections import Counter
@@ -43,6 +44,9 @@ PACKAGE_SRC = Path.cwd().parents[1] / "packages" / "eval" / "src"
 if not (PACKAGE_SRC / "rr_eval").is_dir():
     raise RuntimeError(f"rr_eval not found under {PACKAGE_SRC}: run from the Git folder")
 sys.path.insert(0, str(PACKAGE_SRC))
+# Python keeps imported modules in memory: after a Git pull it would still run the old builder.
+for name in [m for m in sys.modules if m == "rr_eval" or m.startswith("rr_eval.")]:
+    del sys.modules[name]
 
 # Only the plain-Python builder is imported here (no pydantic needed on the cluster).
 from rr_eval.matching_builder import (
@@ -188,6 +192,8 @@ for case in sample:
 (OUT / "spot_check.csv").write_text(buffer.getvalue(), encoding="utf-8")
 
 print(f"{len(cases)} cases written to {OUT}")
+leftover = sum("&amp;" in json.dumps(c, ensure_ascii=False) for c in cases)
+print(f"cases with HTML entities: {leftover} (expected 0)")
 print("by split:", dict(Counter(c["split"] for c in cases)))
 print("by slice:", dict(Counter(s for c in cases for s in c["slices"])))
 print("by expected:", dict(Counter(c["expected"] for c in cases)))
